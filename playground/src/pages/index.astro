@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import AnchorsPageContent from '../components/AnchorsPageContent.astro';
+---
+
+<Layout isFrontPage={true}>
+	<p slot="after-header">Scroll nested containers</p>
+
+	<Nav
+		links={[
+
+		]}
+	/>
+
+	<AnchorsPageContent />
+
+	<Nav
+		links={[
+			{
+				href: '#top',
+				title: 'Top',
+				description: 'Scroll to the top of the page',
+				direction: 'up'
+			},
+		]}
+	/>
+</Layout>

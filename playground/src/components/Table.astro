@@ -1,0 +1,60 @@
+---
+interface Props {
+	rows: number;
+	columns: number;
+	idPrefix: string;
+	startHue?: number;
+}
+const { rows, columns, idPrefix } = Astro.props;
+const startHue = Astro.props.startHue || 200;
+
+const getTestId = (colIndex: number, rowIndex: number): string => {
+	if (rowIndex === 0 && colIndex === 0) return `${idPrefix}_tile--first`;
+	if (rowIndex === rows - 1 && colIndex === columns - 1) return `${idPrefix}_tile--last`;
+	return `${idPrefix}_tile--${colIndex}-${rowIndex}`;
+};
+
+const getLabel = (colIndex: number, rowIndex: number): string => {
+	if (rowIndex === 0 && colIndex === 0) return 'first';
+	if (rowIndex === rows - 1 && colIndex === columns - 1) return 'last';
+	return `${colIndex}/${rowIndex}`;
+};
+---
+
+<table class:list={['table']} border="0" cellpadding="0" cellspacing="0">
+	<tbody>
+		{
+			[...Array(rows)].map((_data, rowIndex) => (
+				<tr>
+					{[...Array(columns)].map((_data, colIndex) => (
+						<td>
+							<div
+								class="cell"
+								style={{
+									'--hue': (startHue + colIndex * 15 + rowIndex * 15) % 360
+								}}
+								data-testid={getTestId(colIndex, rowIndex)}
+							>
+								{getLabel(colIndex, rowIndex)}
+							</div>
+						</td>
+					))}
+				</tr>
+			))
+		}
+	</tbody>
+</table>
+
+<style>
+	td {
+		border-style: hidden !important;
+	}
+	.cell {
+		aspect-ratio: 1;
+		width: 10rem;
+		background: yellow;
+		display: grid;
+		place-content: center;
+		background: hsl(var(--hue), var(--saturation), var(--lightness));
+	}
+</style>

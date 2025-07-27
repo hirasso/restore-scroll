@@ -1,0 +1,46 @@
+---
+import { ArrowRightIcon, ArrowUpIcon, ArrowLeftIcon, ArrowDownIcon } from 'astro-feather';
+
+type Direction = 'right' | 'down' | 'left' | 'up';
+
+export type Props = {
+	href: string;
+	title: string;
+	description: string;
+	direction?: Direction;
+	attributes?: Record<string, string | boolean>;
+};
+
+const { href, title, description, direction = 'right', attributes = {} } = Astro.props;
+
+const Icon = {
+	right: ArrowRightIcon,
+	down: ArrowDownIcon,
+	left: ArrowLeftIcon,
+	up: ArrowUpIcon
+}[direction];
+---
+
+<a
+	href={href}
+	class="group block outline-2 rounded-sm p-2 transition-all text-black/50 bg-white hover:text-swup-purple hover:bg-gray-100 pointer-events-auto"
+	{...attributes}
+>
+	<strong class="flex gap-1 items-center text-black group-hover:text-swup-purple">
+		{title}
+		<span
+			class="transition-transform ms-auto"
+			class:list={[
+				{
+					'group-hover:translate-x-0.5': direction === 'right',
+					'group-hover:-translate-x-0.5': direction === 'left',
+					'group-hover:translate-y-0.5': direction === 'down',
+					'group-hover:-translate-y-0.5': direction === 'up'
+				}
+			]}
+		>
+			<Icon size={22} />
+		</span>
+	</strong>
+	<span class="text-sm leading-0">{description}</span>
+</a>

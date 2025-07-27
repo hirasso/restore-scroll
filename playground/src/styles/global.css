@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+
+:root {
+	--saturation: 100%;
+	--lightness: 80%;
+	--swup-fade-theme-duration: 150ms;
+	font-size: clamp(16px, 2vw, 18px);
+}
+@theme {
+	--color-swup-purple: #27276e;
+}
+h2 {
+	@apply font-bold mb-1;
+}
+
+[data-swup-scroll-target],
+:target {
+	@apply outline-purple-600 outline-4 rounded-sm outline-offset-6;
+  @apply [&.tile]:-outline-offset-6 [&.cell]:-outline-offset-6;
+}
+
+/**
+ * Tiles
+ */
+
+.tile {
+	display: grid;
+	place-content: center;
+	background: hsl(var(--hue), var(--saturation), var(--lightness));
+}
+.tiles--vertical .tile {
+	padding-block: 1rem;
+}
+.tiles--horizontal {
+	display: flex;
+	width: max-content;
+}
+.tiles--horizontal .tile {
+	flex: none;
+	width: 10rem;
+	aspect-ratio: 1;
+}
+/**
+ * Table
+ */
+
+.table td {
+  border-style: hidden !important;
+}
+.table .cell {
+  aspect-ratio: 1;
+  width: 10rem;
+  background: yellow;
+  display: grid;
+  place-content: center;
+  background: hsl(var(--hue), var(--saturation), var(--lightness));
+}

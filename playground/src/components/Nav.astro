@@ -1,0 +1,28 @@
+---
+import NavLink from './NavLink.astro';
+import type { Props as NavLinkProps } from './NavLink.astro';
+
+export type Props = {
+	links: NavLinkProps[];
+};
+
+const { links } = Astro.props;
+---
+
+<nav class="pointer-events-none">
+	<ul class="grid md:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4 mb-10">
+		{
+			links.map((link) => (
+				<li>
+					<NavLink
+						href={link.href}
+						title={link.title}
+						description={link.description}
+						direction={link.direction}
+						attributes={link.attributes}
+					/>
+				</li>
+			))
+		}
+	</ul>
+</nav>

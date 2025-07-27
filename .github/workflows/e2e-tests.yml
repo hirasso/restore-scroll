@@ -1,0 +1,38 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [main, next]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e-tests:
+    name: Run e2e tests
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3 # @see https://stackoverflow.com/a/74885077/586823
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Install Playwright Browsers
+        run: pnpm run test:e2e:install
+
+      - name: Run Playwright tests
+        run: pnpm run test:e2e
+
+      - uses: daun/playwright-report-summary@v2
+        with:
+          report-file: playwright-results.json

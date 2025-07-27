@@ -1,0 +1,52 @@
+---
+import { ArrowRightIcon, ArrowUpRightIcon } from 'astro-feather';
+
+const links = [
+	{
+		href: 'https://github.com/hirasso/scrollmemory',
+		title: 'GitHub'
+	}
+];
+
+if (Astro.url.pathname !== '/') {
+	links.unshift({
+		href: '/',
+		title: 'Overview'
+	});
+}
+
+const path = Astro.url.pathname.replace(/^\/|\/$/g, '');
+
+const isExternal = (href: string) => href.startsWith('http');
+---
+
+<header
+	id="header"
+	class=" flex gap-2 border-b-2 p-3 sticky z-10 top-0 bg-white items-center font-bold whitespace-nowrap"
+>
+	<a href="/" class="flex gap-2 items-center">
+		<span class="flex gap-1 items-center" data-testid="title">
+			<span class="block"><span class="hidden sm:inline-block">@hirasso/</span>scrollmemory</span>
+			{path && <ArrowRightIcon size={18} /> <span>{path}</span>}
+		</span>
+	</a>
+
+	<ul class="ml-auto gap-4 pe-2 hidden md:flex">
+		{
+			links.map((link) => (
+				<li>
+					<a
+						href={link.href}
+						target={isExternal(link.href) ? '_blank' : '_self'}
+						class="hover:underline flex gap-0.5 items-center"
+					>
+						{link.title}
+						{isExternal(link.href) && <span class="text-gray-400">
+							<ArrowUpRightIcon size={20} />
+						</span>}
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</header>

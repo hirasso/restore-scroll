@@ -1,0 +1,36 @@
+---
+interface Props {
+	amount: number;
+	direction: 'vertical' | 'horizontal';
+	idPrefix: string;
+	startHue?: number;
+}
+const { amount, idPrefix, direction } = Astro.props;
+const startHue = Astro.props.startHue || 200;
+
+const getTestId = (index: number): string => {
+	if (index === 0) return `${idPrefix}_tile--first`;
+	if (index === amount - 1) return `${idPrefix}_tile--last`;
+	return `${idPrefix}_tile--${index + 1}`;
+};
+
+const getLabel = (index: number): string => {
+	if (index === 0) return 'first';
+	if (index === amount - 1) return 'last';
+	return String(index + 1);
+};
+---
+
+<ul class="tiles" class:list={[`tiles--${direction}`]}>
+	{
+		[...Array(amount)].map((_data, index) => (
+			<li
+				class="tile"
+				style={{ '--hue': (startHue + index * 10) % 360 }}
+				data-testid={getTestId(index)}
+			>
+				{getLabel(index)}
+			</li>
+		))
+	}
+</ul>

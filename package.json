@@ -1,6 +1,6 @@
 {
-  "name": "scrollmemory",
-  "amdName": "ScrollMemory",
+  "name": "restore-scroll",
+  "amdName": "restore-scroll",
   "version": "0.0.0",
   "description": "Remember scroll positions of the window and elements between reloads",
   "packageManager": "pnpm@10.13.1",
@@ -11,20 +11,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hirasso/scrollmemory.git"
+    "url": "https://github.com/hirasso/restore-scroll.git"
   },
   "license": "MIT",
   "type": "module",
   "source": "./src/index.ts",
-  "main": "./dist/ScrollMemory.cjs",
-  "module": "./dist/ScrollMemory.module.js",
-  "unpkg": "./dist/ScrollMemory.umd.js",
+  "main": "./dist/restore-scroll.cjs",
+  "module": "./dist/restore-scroll.module.js",
+  "unpkg": "./dist/restore-scroll.umd.js",
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/ScrollMemory.modern.js",
-      "require": "./dist/ScrollMemory.cjs"
+      "import": "./dist/restore-scroll.modern.js",
+      "require": "./dist/restore-scroll.cjs"
     }
   },
   "files": [
@@ -37,7 +37,7 @@
     "prepublishOnly": "pnpm run build",
     "build": "pnpm run clean && pnpm run build:module && pnpm run build:bundle",
     "build:module": "BROWSERSLIST_ENV=modern microbundle src/index.ts --format modern,esm,cjs",
-    "build:bundle": "BROWSERSLIST_ENV=production microbundle src/scrollmemory.ts --format umd --external none",
+    "build:bundle": "BROWSERSLIST_ENV=production microbundle src/index.ts --format umd --external none --define process.env.NODE_ENV=production",
     "watch": "BROWSERSLIST_ENV=development microbundle src/index.ts --watch --format modern",
     "playground:dev": "astro dev --root playground",
     "playground:build": "astro build --root playground",
@@ -65,7 +65,7 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "onFail": "error"
+      "onFail": "warn"
     }
   }
 }

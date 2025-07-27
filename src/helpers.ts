@@ -1,19 +1,25 @@
-import type { ScrollPosition, ScrollMemory } from "./defs.js";
-import { prefix } from "./index.js";
+import type {
+  Logger,
+  ScrollContainer,
+  ScrollPosition,
+  ScrollState,
+} from "./defs.js";
+
+/** The logger prefix for the debug mode */
+export const prefix = "restore-scroll";
 
 /** Create a minimal logger with a prefix */
 export function createLogger() {
   const style = [
     "background: linear-gradient(to right, #a960ee, #f78ed4)",
     "color: white",
-    "font-weight: bold",
-    "padding: 2px 6px",
-    "border-radius: 4px",
+    "padding-inline: 4px",
+    "border-radius: 2px",
+    "font-family: monospace",
   ].join(";");
 
   return {
-    state: (state: string, ...args: any[]) => console.log(`%c${prefix} ${state}`, style, ...args),
-    log: (...args: any[]) => console.log(`%c${prefix} ${args[0]}`, style, ...args),
+    log: (...args: any[]) => console.log(`%c${prefix}`, style, ...args),
     warn: (...args: any[]) => console.warn(`%c${prefix}`, style, ...args),
     error: (...args: any[]) => console.error(`%c${prefix}`, style, ...args),
   };
@@ -54,7 +60,7 @@ export function debounce<F extends (...args: unknown[]) => unknown>(
 /**
  * Check if an unknown value is a non-empty object
  */
-function isObject(value: unknown): boolean {
+function isRecord(value: unknown): boolean {
   return !!value && typeof value === "object" && !Array.isArray(value);
 }
 
@@ -63,20 +69,18 @@ function isObject(value: unknown): boolean {
  */
 export function isScrollPosition(value: unknown): value is ScrollPosition {
   return (
-    isObject(value) &&
+    isRecord(value) &&
     typeof (value as Record<string, unknown>).top === "number" &&
-    typeof (value as Record<string, unknown>).left === "number" &&
-    typeof (value as Record<string, unknown>).debug === "boolean"
+    typeof (value as Record<string, unknown>).left === "number"
   );
 }
 
 /**
- * Check if an unknown value has the shape of the ScrollMemory type
+ * Check if an unknown value has the shape of the restoreScroll type
  */
-export function isScrollMemory(value: unknown): value is ScrollMemory {
+export function isScrollState(value: unknown): value is ScrollState {
   return (
-    isObject(value) &&
-    !Array.isArray(value) &&
+    isRecord(value) &&
     Object.entries(value as Record<string, unknown>).every(
       ([key, value]) => typeof key === "string" && isScrollPosition(value)
     )
@@ -84,25 +88,18 @@ export function isScrollMemory(value: unknown): value is ScrollMemory {
 }
 
 /**
- * Get stored scrollmemory state, filter out invalid records
+ * Get stored restore-scroll state, filter out invalid records
  */
-export function getScrollMemoryFromState(): ScrollMemory | null {
-  const memory = window.history.state?.scrollmemory || {};
-
-  if (!isObject(memory)) return null;
-
-  return Object.fromEntries(
-    Object.entries(memory).filter(
-      ([key, value]) => typeof key === "string" && isScrollPosition(value)
-    )
-  ) as ScrollMemory;
+export function getScrollState(): ScrollState {
+  const state = window.history.state?.scrollState;
+  return isScrollState(state) ? state : {};
 }
 
 /**
- * Get a unique CSS selector for a given DOM element.
+ * Create a unique CSS selector for a given DOM element.
  * The selector is built from tag names, IDs, classes, and :nth-child where necessary.
  */
-function getUniqueSelector(el: Element): string {
+function createUniqueSelector(el: Element): string {
   if (el.id) return `#${el.id}`;
 
   const path: string[] = [];
@@ -153,20 +150,40 @@ function getUniqueSelector(el: Element): string {
 /**
  * Get the storage key for an element
  */
-export function getStorageSelector(element: Element): string {
-  if (!element.matches("body *")) {
-    return ":root";
+export function createStorageSelector(
+  element: Element,
+  logger?: Logger
+): string {
+  if (element.matches("body *") && !element.id) {
+    logger?.log(
+      "💡 for best results, add an [id] to elements you want to restore",
+      { element }
+    );
   }
-  return getUniqueSelector(element);
+  return element.matches("body *") ? createUniqueSelector(element) : ":root";
 }
 
 /**
- * Query all elements as an array
+ * Read the storage selector, log if none exists
  */
-export function collect<T extends Element>(selector: string): T[] {
-  return [...document.querySelectorAll<T>(selector)];
-}
+export function readStorageSelector(
+  element: ScrollContainer,
+  logger?: Logger
+): string | undefined {
+  const { selector } = element.__restore_scroll || {};
 
+  if (typeof selector !== "string") {
+    logger?.error("Invalid selector", { selector, element });
+    return;
+  }
+
+  if (!selector) {
+    logger?.error("No selector available", { element });
+    return;
+  }
+
+  return selector;
+}
 
 /**
  * Query a scroll container by selector

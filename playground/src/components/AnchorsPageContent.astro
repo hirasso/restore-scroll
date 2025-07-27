@@ -16,17 +16,6 @@ import Nav from './Nav.astro';
 		</div>
 	</section>
 
-	<Nav
-		links={[
-			{
-				href: '#top',
-				title: 'Top',
-				description: 'Scroll to the top of the page',
-				direction: 'up'
-			}
-		]}
-	/>
-
 	<section data-testid="horizontal">
 		<h2>Horizontal</h2>
 		<div
@@ -38,17 +27,6 @@ import Nav from './Nav.astro';
 		</div>
 	</section>
 
-	<Nav
-		links={[
-			{
-				href: '#top',
-				title: 'Top',
-				description: 'Scroll to the top of the page',
-				direction: 'up'
-			}
-		]}
-	/>
-
 	<section data-testid="both-axis">
 		<h2>Both axis</h2>
 		<div
@@ -59,25 +37,6 @@ import Nav from './Nav.astro';
 			<Table rows={20} columns={20} idPrefix="both-axis" />
 		</div>
 	</section>
-
-	<Nav
-		links={[
-			{
-				href: '#top',
-				title: 'Top',
-				description: 'Scroll to the top of the page',
-				direction: 'up'
-			},
-			{
-				href: '/anchors-2/',
-				title: 'Anchors 2',
-				description: 'Go to the second anchors page',
-				attributes: {
-					'data-testid': 'link-to-anchors-2-after-both-axis'
-				}
-			}
-		]}
-	/>
 
 	<section>
 		<p>

@@ -1,38 +1,38 @@
 <p align="center">
 
-[![readme-header](https://github.com/hirasso/scrollmemory/assets/869813/978e2445-d11c-4f32-8f73-e0cf8dfdce8c)](https://scrollmemory.js.org)
+[![readme-header](https://github.com/hirasso/restore-scroll/assets/869813/978e2445-d11c-4f32-8f73-e0cf8dfdce8c)](https://restore-scroll.js.org)
 
 </p>
 
 <div align="center">
 
-[![e2e test status](https://img.shields.io/github/actions/workflow/status/hirasso/scrollmemory/e2e-tests.yml?branch=main&label=e2e%20tests)](https://github.com/hirasso/scrollmemory/actions/workflows/e2e-tests.yml)
-[![unit test status](https://img.shields.io/github/actions/workflow/status/hirasso/scrollmemory/unit-tests.yml?branch=main&label=unit%20tests)](https://github.com/hirasso/scrollmemory/actions/workflows/unit-tests.yml)
-[![weekly NPM downloads](https://img.shields.io/npm/dw/scrollmemory)](https://www.npmjs.com/package/scrollmemory)
-[![license](https://img.shields.io/github/license/hirasso/scrollmemory)](https://github.com/hirasso/scrollmemory/blob/master/LICENSE)
+[![e2e test status](https://img.shields.io/github/actions/workflow/status/hirasso/restore-scroll/e2e-tests.yml?branch=main&label=e2e%20tests)](https://github.com/hirasso/restore-scroll/actions/workflows/e2e-tests.yml)
+[![unit test status](https://img.shields.io/github/actions/workflow/status/hirasso/restore-scroll/unit-tests.yml?branch=main&label=unit%20tests)](https://github.com/hirasso/restore-scroll/actions/workflows/unit-tests.yml)
+[![weekly NPM downloads](https://img.shields.io/npm/dw/restore-scroll)](https://www.npmjs.com/package/restore-scroll)
+[![license](https://img.shields.io/github/license/hirasso/restore-scroll)](https://github.com/hirasso/restore-scroll/blob/master/LICENSE)
 
 </div>
 
 ## Demo
 
-[scrollmemory.js.org](https://scrollmemory.js.org)
+[restore-scroll.js.org](https://restore-scroll.js.org)
 
 ## Installation
 
 Install the plugin from npm and import it into your bundle:
 
 ```bash
-npm i scrollmemory
+npm i restore-scroll
 ```
 
 ```js
-import ScrollMemory from "scrollmemory";
+import { restoreScroll } from "restore-scroll";
 ```
 
 Or include the minified production file from a CDN:
 
 ```html
-<script src="https://unpkg.com/scrollmemory"></script>
+<script src="https://unpkg.com/restore-scroll"></script>
 ```
 
 ## Usage Example
@@ -64,9 +64,9 @@ Suppose you have the following HTML:
 This is how you would mirror the scroll position between the two `div.scroller`:
 
 ```js
-import ScrollMemory from "scrollmemory";
+import { restoreScroll } from "restore-scroll";
 /** Mirror all divs that match the class `.scroller` */
-new ScrollMemory(document.querySelectorAll(".scroller"));
+restoreScroll(document.querySelectorAll(".scroller"));
 ```
 
 See also this [minimal example on CodePen](https://codepen.io/rassohilber/pen/JjxwJpo)
@@ -74,19 +74,19 @@ See also this [minimal example on CodePen](https://codepen.io/rassohilber/pen/Jj
 💡 To mirror the scroll position from and to the `window`, you would have to add one of `:root`, `html` or `body` to the selector:
 
 ```js
-new ScrollMemory(document.querySelectorAll(":root, .scroller"));
+restoreScroll(document.querySelectorAll(":root, .scroller"));
 /** or */
-new ScrollMemory(document.querySelectorAll("html, .scroller"));
+restoreScroll(document.querySelectorAll("html, .scroller"));
 /** or */
-new ScrollMemory(document.querySelectorAll("body, .scroller"));
+restoreScroll(document.querySelectorAll("body, .scroller"));
 ```
 
 ## Options
 
-You can pass in a few additional options to ScrollMemory as the second argument:
+You can pass in a few additional options to restoreScroll as the second argument:
 
 ```js
-new ScrollMemory(document.querySelectorAll(".scroller"), options);
+restoreScroll(document.querySelectorAll(".scroller"), options);
 ```
 
 The type signature of the options object:
@@ -113,10 +113,10 @@ Type: `boolean`, default: `true`. Should debug messages be printed to the consol
 
 ## API
 
-To access ScrollMemory's API, you have to save a reference to the class during instaciation:
+To access restoreScroll's API, you have to save a reference to the class during instaciation:
 
 ```js
-const mirror = new ScrollMemory(document.querySelectorAll(".scroller"));
+const mirror = restoreScroll(document.querySelectorAll(".scroller"));
 ```
 
 ### `mirror.progress`
@@ -142,7 +142,7 @@ mirror.progress = 0.5;
 Get the current progress of an element. The element doesn't _need_ to be one of the mirrored elements
 
 ```ts
-const mirror = new ScrollMemory(document.querySelectorAll(".scroller"));
+const mirror = restoreScroll(document.querySelectorAll(".scroller"));
 // ...sometime later:
 console.log(mirror.getScrollProgress(document.querySelector(":root")));
 ```
@@ -153,6 +153,6 @@ There are already a few libraries out there that do the same thing. But all I co
 
 Also, this simple package gave me an excuse to play around with the tooling involved with creating a robust open source `npm` package:
 
-- The [demo page](https://scrollmemory.js.org) is generated using [Astro](https://astro.build) and deployed via [Netlify](https://www.netlify.com/)
+- The [demo page](https://restore-scroll.js.org) is generated using [Astro](https://astro.build) and deployed via [Netlify](https://www.netlify.com/)
 - Browser testing is being done with [PlayWright](https://playwright.dev/), using the demo site as the source for the test fixtures
 - The source code is written in [TypeScript](https://www.typescriptlang.org/)

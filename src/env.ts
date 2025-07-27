@@ -1,19 +1,9 @@
-declare global {
-	const __DEV__: boolean;
-	const MICROBUNDLE_TARGET: string;
-	interface Window {
-		process?: any;
-	}
-}
+const inBrowser = window instanceof Window;
+
+const nodeEnv = inBrowser ? "" : String(process?.env?.NODE_ENV ?? "");
 
 /**
- * Make sure process.env is defined in the browser
+ * Export environment variables. This will become false in production builds from consumers
  */
-if (!window.process) window.process = {};
-if (!window.process.env) window.process.env = {};
-
-/**
- * Export the __DEV__ variable. This will become false in production builds from consumers
- */
-export const __TEST__ = ['test'].includes(String(process.env.NODE_ENV));
-export const __DEV__ = ['development', 'test'].includes(String(process.env.NODE_ENV));
+export const __TEST__ = ["test"].includes(nodeEnv);
+export const __DEV__ = ["development", "test"].includes(nodeEnv);

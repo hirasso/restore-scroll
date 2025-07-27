@@ -8,8 +8,8 @@ body:
         ### Thanks for taking the time to fill out this bug report! 🏓 Before you begin:
 
         - ✅ Make sure you are running the latest version of the library
-        - ✅ Please make sure you read our [Code of Conduct](https://github.com/hirasso/scrollmemory/blob/master/CODE_OF_CONDUCT.md)
-        - ✅ Make sure to check [discussions](https://github.com/hirasso/scrollmemory/discussions) and [existing issues](https://github.com/issues?q=is%3Aissue+repo%3Ahirasso%2Fscrollmemory+). Maybe your problem was already solved :)
+        - ✅ Please make sure you read our [Code of Conduct](https://github.com/hirasso/restore-scroll/blob/master/CODE_OF_CONDUCT.md)
+        - ✅ Make sure to check [discussions](https://github.com/hirasso/restore-scroll/discussions) and [existing issues](https://github.com/issues?q=is%3Aissue+repo%3Ahirasso%2Frestore-scroll+). Maybe your problem was already solved :)
 
   - type: textarea
     id: what-did-you-expect
@@ -52,11 +52,11 @@ body:
     attributes:
       label: Checked all these? 📚
       options:
-        - label: I have read the [usage instructions](https://github.com/hirasso/scrollmemory#usage-example)
+        - label: I have read the [usage instructions](https://github.com/hirasso/restore-scroll#usage-example)
           required: true
-        - label: I have checked [discussions](https://github.com/hirasso/scrollmemory/discussions) and [existing issues](https://github.com/issues?q=is%3Aissue+repo%3Ahirasso%2Fscrollmemory+) for related problems
+        - label: I have checked [discussions](https://github.com/hirasso/restore-scroll/discussions) and [existing issues](https://github.com/issues?q=is%3Aissue+repo%3Ahirasso%2Frestore-scroll+) for related problems
           required: true
-        - label: I agree to follow this project's [Code of Conduct](https://github.com/hirasso/scrollmemory/blob/master/CODE_OF_CONDUCT.md)
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/hirasso/restore-scroll/blob/master/CODE_OF_CONDUCT.md)
           required: true
         - label: I have provided all necessary information to the best of my knowledge
           required: true

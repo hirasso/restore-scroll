@@ -6,15 +6,15 @@ type ScrollPosition = {
   y: number;
 };
 
-import ScrollMemory from "../../../src/index.js";
+import { restoreScroll } from "../../../src/index.js";
 import type { Progress } from "../../../src/index.js";
 
 declare global {
   interface Window {
     mirrors: {
-      vertical: ScrollMemory,
-      horizontal: ScrollMemory,
-      both: ScrollMemory
+      vertical: restoreScroll,
+      horizontal: restoreScroll,
+      both: restoreScroll
     };
   }
 }

@@ -7,18 +7,16 @@ export type Options = {
 export type ScrollPosition = {
   top: number;
   left: number;
-  debug: boolean;
 };
 
-export type ScrollMemory = Record<string, ScrollPosition>;
+export type ScrollState = Record<string, ScrollPosition>;
 
 export type Target = Window | Element | NodeListOf<Element> | Element[];
 
 export type Logger = ReturnType<typeof createLogger>;
 
-export type AugmentedElement = Element & {
-  __scrollmemory: {
+export type ScrollContainer = Element & {
+  __restore_scroll?: {
     selector?: string;
-    position?: ScrollPosition;
   };
-};
+}

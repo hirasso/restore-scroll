@@ -1,6 +1,7 @@
 import { vi, describe, expect, it, beforeEach, afterEach } from "vitest";
 
-import ScrollMemory from "../../../src/index.js";
+import { restoreScroll } from "../../../src/index.js";
+import { createElement } from "./support.js";
 
 describe("Logger", () => {
   let warnSpy: ReturnType<typeof vi.spyOn>;
@@ -9,25 +10,34 @@ describe("Logger", () => {
   beforeEach(() => {
     warnSpy = vi.spyOn(console, "warn");
     errorSpy = vi.spyOn(console, "error");
+    document.body.append(
+      createElement(/*html*/ `
+      <div>
+        <div class="scroller" data-restore-scroll></div>
+      </div>
+    `)
+    );
   });
 
   afterEach(() => {
     warnSpy.mockRestore();
     errorSpy.mockRestore();
+    document.body.innerHTML = "";
   });
 
   it("should log if debug is true", () => {
-    new ScrollMemory([], { debug: true });
+    restoreScroll(document.querySelector(".scroller"), { debug: true });
 
-    expect(warnSpy).toBeCalledWith(
+    expect(errorSpy).toBeCalledWith(
       expect.anything(),
-      "No elements provided.",
+      expect.anything(),
+      "Already handled:",
       expect.anything()
     );
   });
 
   it("should not log if debug is false", () => {
-    new ScrollMemory([], { debug: false });
-    expect(warnSpy).not.toBeCalled();
+    restoreScroll(document.querySelector(".scroller"), { debug: false });
+    expect(errorSpy).not.toBeCalled();
   });
 });

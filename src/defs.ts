@@ -11,7 +11,7 @@ export type ScrollPosition = {
 
 export type ScrollState = Record<string, ScrollPosition>;
 
-export type Target = Window | Element | NodeListOf<Element> | Element[];
+export type Target = string | Window | Element | NodeListOf<Element> | Element[];
 
 export type Logger = ReturnType<typeof createLogger>;
 

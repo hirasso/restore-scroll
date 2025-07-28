@@ -50,7 +50,7 @@ export function debounce<F extends (...args: unknown[]) => unknown>(
 /**
  * Check if an unknown value is a non-empty object
  */
-function isRecord(value: unknown): boolean {
+export function isRecord(value: unknown): boolean {
   return !!value && typeof value === "object" && !Array.isArray(value);
 }
 

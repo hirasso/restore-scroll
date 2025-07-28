@@ -13,7 +13,7 @@
 
 ## Installation
 
-Install the plugin from npm and import it into your bundle:
+Install and import into your bundle
 
 ```bash
 npm i @hirasso/restore-scroll
@@ -23,7 +23,7 @@ npm i @hirasso/restore-scroll
 import { restoreScroll } from "@hirasso/restore-scroll";
 ```
 
-Or import the minified production file from a CDN:
+Or import the module directly from a CDN for quick tests:
 
 ```html
 <script type="module">
@@ -34,34 +34,41 @@ Or import the minified production file from a CDN:
 ## Usage Example
 
 ```js
-import { restoreScroll } from "restore-scroll";
 /**
  * Store the scroll position all overflowing divs (identified by tailwind classes in this case):
  */
-restoreScroll(
-  document.querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto")
-);
+restoreScroll(".overflow-y-auto,.overflow-x-auto,.overflow-auto");
 ```
 
-<!--See also this [minimal example on CodePen](https://codepen.io/rassohilber/pen/JjxwJpo)-->
+See also this [minimal example on CodePen](https://codepen.io/rassohilber/pen/JjxwJpo)
 
 💡 If `history.scrollRestoration` is set to `manual`, you might want to restore the `:root` scroll position as well:
 
 ```js
 window.history.scrollRestoration = "manual";
-restoreScroll(
-  document.querySelectorAll(
-    ":root,.overflow-y-auto,.overflow-x-auto,.overflow-auto"
-  )
-);
+restoreScroll(":root,.overflow-y-auto,.overflow-x-auto,.overflow-auto");
 ```
+
+## Target
+
+The first argument of `restoreScroll(target, options)` accepts the following:
+
+```ts
+export type Target = string | Window | Element | NodeListOf<Element> | Element[];
+```
+
+- `string` will be resolved to `document.querySelectorAll(target)`
+- `Window` is the equivalent to `:root`
+- `Element`
+- `NodeListOf<Element>`
+- `Element[]`
 
 ## Options
 
 You can pass in options to restoreScroll as the second argument:
 
 ```js
-restoreScroll(document.querySelectorAll(".overflow-y-auto"), options);
+restoreScroll(target, options);
 ```
 
 The type signature of the options object:

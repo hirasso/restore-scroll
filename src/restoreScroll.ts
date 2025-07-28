@@ -1,6 +1,11 @@
 import type { Target, Options, ScrollContainer } from "./defs.js";
 
-import { debounce, createLogger, createStorageSelector } from "./helpers.js";
+import {
+  debounce,
+  createLogger,
+  createStorageSelector,
+  isRecord,
+} from "./helpers.js";
 import { restore } from "./restore.js";
 import { store, storeAll } from "./store.js";
 
@@ -22,13 +27,22 @@ export default function restoreScroll(
   const settings = { ...defaults, ...options };
   const logger = settings.debug ? createLogger() : undefined;
 
-  if (!target) {
-    return logger?.error("no target provided");
+  if (!target || isRecord(target)) {
+    return logger?.error("No target provided");
+  }
+
+  /** Handle a string like a selector */
+  if (typeof target === "string") {
+    target = document.querySelectorAll(target);
   }
 
   /** Handle a collection of targets recursively */
   if (target instanceof NodeList || Array.isArray(target)) {
-    return [...target].forEach((target) => restoreScroll(target, options));
+    const targets = [...target];
+
+    return !!targets.length
+      ? targets.forEach((target) => restoreScroll(target, options))
+      : logger?.error("No targets found");
   }
 
   /** Resolve the window to the root scrolling element */
@@ -63,5 +77,5 @@ export default function restoreScroll(
     hookedIntoBeforeUnlad = true;
     window.addEventListener("beforeunload", storeAll);
   }
-  return {element};
+  return { element };
 }

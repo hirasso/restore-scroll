@@ -1,6 +1,12 @@
+<h1 align="center">
+
+@hirasso/restore-scroll
+
+</h1>
+
 <p align="center">
 
-[![readme-header](https://github.com/hirasso/restore-scroll/assets/869813/978e2445-d11c-4f32-8f73-e0cf8dfdce8c)](https://restore-scroll.js.org)
+**Store and restore the scroll positions of the window and overflowing divs between page reloads**
 
 </p>
 
@@ -37,36 +43,17 @@ Or include the minified production file from a CDN:
 
 ## Usage Example
 
-Suppose you have the following HTML:
-
-```html
-<div class="scrollers">
-  <div class="scroller">
-    <!-- some HTML that forces the element to have overflow -->
-  </div>
-  <div class="scroller">
-    <!-- some HTML that forces the element to have overflow. Different length than the previous .scroller -->
-  </div>
-</div>
-<style>
-  .scrollers {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    width: 500px;
-  }
-  .scroller {
-    height: 200px;
-    overflow: auto; /* this is important! */
-  }
-</style>
-```
-
-This is how you would mirror the scroll position between the two `div.scroller`:
-
 ```js
 import { restoreScroll } from "restore-scroll";
-/** Mirror all divs that match the class `.scroller` */
-restoreScroll(document.querySelectorAll(".scroller"));
+/**
+ * Store the scroll position of the window (=:root) and all overflowing
+ * divs (tailwind classes in this case):
+ */
+restoreScroll(
+  document.querySelectorAll(
+    ":root,.overflow-y-auto,.overflow-x-auto,.overflow-auto"
+  )
+);
 ```
 
 See also this [minimal example on CodePen](https://codepen.io/rassohilber/pen/JjxwJpo)
@@ -83,7 +70,7 @@ restoreScroll(document.querySelectorAll("body, .scroller"));
 
 ## Options
 
-You can pass in a few additional options to restoreScroll as the second argument:
+You can pass in options to restoreScroll as the second argument:
 
 ```js
 restoreScroll(document.querySelectorAll(".scroller"), options);
@@ -93,59 +80,13 @@ The type signature of the options object:
 
 ```js
 type Options = {
-  vertical: boolean;
-  horizontal: boolean;
   debug: boolean;
 }
 ```
 
-### `vertical`
-
-Type: `boolean`, default: `true`. Should the vertical scroll position be mirrored?
-
-### `horizontal`
-
-Type: `boolean`, default: `true`. Should the horizontal scroll position be mirrored?
-
 ### `debug`
 
-Type: `boolean`, default: `true`. Should debug messages be printed to the console?
-
-## API
-
-To access restoreScroll's API, you have to save a reference to the class during instaciation:
-
-```js
-const mirror = restoreScroll(document.querySelectorAll(".scroller"));
-```
-
-### `mirror.progress`
-
-Get the current scroll progress in the form of `{ x: number, y: number }`, where both x and y are a
-number between 0-1
-
-### `mirror.progress = value`
-
-Set the progress and scrolls all mirrored elements. For example:
-
-```js
-// for both directions
-mirror.progress = { x: 0.2, y: 0.5 };
-// or only set one direction
-mirror.progress = { y: 0.5 };
-// or for both directions at once:
-mirror.progress = 0.5;
-```
-
-### `mirror.getScrollProgress(element: HTMLElement)`
-
-Get the current progress of an element. The element doesn't _need_ to be one of the mirrored elements
-
-```ts
-const mirror = restoreScroll(document.querySelectorAll(".scroller"));
-// ...sometime later:
-console.log(mirror.getScrollProgress(document.querySelector(":root")));
-```
+Type: `boolean`, default: `false`. Should debug messages be printed to the console?
 
 ## Motivation
 

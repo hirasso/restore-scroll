@@ -18,7 +18,7 @@ let hookedIntoBeforeUnlad = false;
 export default function restoreScroll(
   target: Target | null,
   options: Partial<Options> = {}
-): void {
+) {
   const settings = { ...defaults, ...options };
   const logger = settings.debug ? createLogger() : undefined;
 
@@ -63,4 +63,5 @@ export default function restoreScroll(
     hookedIntoBeforeUnlad = true;
     window.addEventListener("beforeunload", storeAll);
   }
+  return {element};
 }

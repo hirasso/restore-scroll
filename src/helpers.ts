@@ -32,16 +32,6 @@ export const nextTick = (): Promise<void> => {
   });
 };
 
-/** Check if an element has overflow */
-export const hasOverflow = ({
-  clientWidth,
-  clientHeight,
-  scrollWidth,
-  scrollHeight,
-}: HTMLElement) => {
-  return scrollHeight > clientHeight || scrollWidth > clientWidth;
-};
-
 /**
  * Minimal debounce function.
  * @see https://www.joshwcomeau.com/snippets/javascript/debounce/
@@ -91,7 +81,7 @@ export function isScrollState(value: unknown): value is ScrollState {
  * Get stored restore-scroll state, filter out invalid records
  */
 export function getScrollState(): ScrollState {
-  const state = window.history.state?.scrollState;
+  const state = window.history.state?.restoreScroll;
   return isScrollState(state) ? state : {};
 }
 
@@ -183,15 +173,4 @@ export function readStorageSelector(
   }
 
   return selector;
-}
-
-/**
- * Query a scroll container by selector
- */
-export function getScrollContainer(selector: string): Element | null {
-  try {
-    return document.querySelector(selector);
-  } catch (e) {
-    return null;
-  }
 }

@@ -1,7 +1,7 @@
 import { vi, describe, expect, it, beforeEach, afterEach } from "vitest";
 
 import { restoreScroll } from "../../../src/index.js";
-import { createElement } from "./support.js";
+import { createElement } from "../support.js";
 
 describe("Logger", () => {
   let warnSpy: ReturnType<typeof vi.spyOn>;

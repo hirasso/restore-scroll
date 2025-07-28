@@ -52,7 +52,7 @@
   "devDependencies": {
     "@astrojs/mdx": "^3.1.7",
     "@changesets/cli": "^2.28.1",
-    "@playwright/test": "^1.47.2",
+    "@playwright/test": "^1.54.1",
     "astro": "^4.15.9",
     "astro-expressive-code": "^0.37.0",
     "astro-feather": "^1.0.0",

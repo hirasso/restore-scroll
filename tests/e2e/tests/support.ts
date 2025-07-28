@@ -1,23 +1,7 @@
 import { expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
-type ScrollPosition = {
-  x: number;
-  y: number;
-};
-
-import { restoreScroll } from "../../../src/index.js";
-import type { Progress } from "../../../src/index.js";
-
-declare global {
-  interface Window {
-    mirrors: {
-      vertical: restoreScroll,
-      horizontal: restoreScroll,
-      both: restoreScroll
-    };
-  }
-}
+import type { ScrollPosition } from "../../../src/defs.js";
 
 export function scrollTo(
   page: Page,
@@ -25,20 +9,20 @@ export function scrollTo(
   testId?: string
 ) {
   return page.evaluate(
-    (args) => {
-      if (args.testId) {
-        window.document
-          .querySelector(`[data-testid="${args.testId}"]`)
-          ?.scrollTo(args.position.x, args.position.y);
+    ({ testId, position }) => {
+      const el = !!testId
+        ? document.querySelector(`[data-testid="${testId}"]`)
+        : document.documentElement;
+
+      if (!el) {
         return;
       }
-      window.scrollTo(args.position.x, args.position.y);
+      el.scrollTo({ ...position, behavior: "instant" });
+
+      return { top: el.scrollTop, left: el.scrollLeft };
     },
     {
-      position: {
-        ...{ x: 0, y: 0 },
-        ...position,
-      },
+      position,
       testId,
     }
   );
@@ -46,21 +30,48 @@ export function scrollTo(
 
 export function scrollToEnd(page: Page, testId?: string) {
   return page.evaluate(
-    (args) => {
-      if (args.testId) {
-        const el = document.querySelector(`[data-testid="${args.testId}"]`)!;
-        el.scrollTo(el.scrollWidth, el.scrollHeight);
-        return;
+    ({ testId }) => {
+      const el = !!testId
+        ? document.querySelector(`[data-testid="${testId}"]`)
+        : document.documentElement;
+
+      if (!el) {
+        return null;
       }
-      window.scrollTo(document.body.scrollWidth, document.body.scrollHeight);
+
+      el.scrollTo({
+        top: el.scrollHeight,
+        left: el.scrollWidth,
+        behavior: "instant",
+      });
+
+      return { top: el.scrollTop, left: el.scrollLeft };
     },
     { testId }
   );
 }
 
-export function sleep(timeout = 0): Promise<void> {
+export function wait(timeout = 0): Promise<void> {
   return new Promise((resolve) =>
     setTimeout(() => resolve(undefined), timeout)
+  );
+}
+
+export function getScrollPosition(page: Page, testId?: string) {
+  return page.evaluate(
+    ({ testId }) => {
+      const el = !!testId
+        ? document.querySelector(`[data-testid="${testId}"]`)
+        : document.documentElement;
+
+      return !!el
+        ? {
+            top: el.scrollTop,
+            left: el.scrollLeft,
+          }
+        : null;
+    },
+    { testId }
   );
 }
 
@@ -69,48 +80,18 @@ export async function expectScrollPosition(
   expected: ScrollPosition,
   testId?: string
 ) {
-  const scrollY = await page.evaluate((testId): ScrollPosition => {
-    if (!testId)
-      return {
-        x: window.scrollY,
-        y: window.scrollX,
-      };
-    const el = window.document.querySelector(`[data-testid="${testId}"]`);
-    if (!el) return { x: -1, y: -1 };
-    return {
-      x: el.scrollLeft,
-      y: el.scrollTop,
-    };
-  }, testId);
-  expect(scrollY).toEqual(expected);
-}
+  const scrollY = await page.evaluate(
+    (args): ScrollPosition => {
+      const el = !!args.testId
+        ? document.querySelector(`[data-testid="${args.testId}"]`)
+        : document.documentElement;
 
-export async function setProgress(
-  page: Page,
-  instance: string,
-  progress: Partial<Progress> | number
-) {
-  await page.evaluate(
-    ({ instance, progress }): Progress => {
-      return (window.mirrors[instance].progress = progress);
+      return !!el
+        ? { top: el.scrollTop, left: el.scrollLeft }
+        : { top: -1, left: -1 };
     },
-    { instance, progress }
+    { testId }
   );
-}
 
-function roundTwoDecimals(value: number) {
-  return Math.round(value * 100) / 100;
-}
-
-export async function expectProgress(
-  page: Page,
-  instance: string,
-  expected: Progress
-) {
-  const progress = await page.evaluate((instance): Progress => {
-    return window.mirrors[instance].progress;
-  }, instance);
-
-  expect(roundTwoDecimals(progress.x)).toEqual(expected.x);
-  expect(roundTwoDecimals(progress.y)).toEqual(expected.y);
+  expect(scrollY).toEqual(expected);
 }

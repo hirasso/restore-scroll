@@ -16,17 +16,19 @@
 Install the plugin from npm and import it into your bundle:
 
 ```bash
-npm i restore-scroll
+npm i @hirasso/restore-scroll
 ```
 
 ```js
-import { restoreScroll } from "restore-scroll";
+import { restoreScroll } from "@hirasso/restore-scroll";
 ```
 
-Or include the minified production file from a CDN:
+Or import the minified production file from a CDN:
 
 ```html
-<script src="https://unpkg.com/restore-scroll"></script>
+<script type="module">
+  import { restoreScroll } from "https://unpkg.com/@hirasso/restore-scroll@0?module";
+</script>
 ```
 
 ## Usage Example

@@ -31,16 +31,18 @@ Or import the module directly from a CDN for quick tests:
 </script>
 ```
 
-## Usage Example
+## Usage
+
+`restoreScroll` accepts two arguments: The `target`(s) and optional `options`.
 
 ```js
 /**
  * Store the scroll position all overflowing divs (identified by tailwind classes in this case):
  */
-restoreScroll(".overflow-y-auto,.overflow-x-auto,.overflow-auto");
+restoreScroll(".overflow-y-auto,.overflow-x-auto,.overflow-auto", {
+  debug: true,
+});
 ```
-
-See also this [minimal example on CodePen](https://codepen.io/rassohilber/pen/JjxwJpo)
 
 💡 If `history.scrollRestoration` is set to `manual`, you might want to restore the `:root` scroll position as well:
 
@@ -51,10 +53,15 @@ restoreScroll(":root,.overflow-y-auto,.overflow-x-auto,.overflow-auto");
 
 ## Target
 
-The first argument of `restoreScroll(target, options)` accepts the following:
+The first argument accepts the following:
 
 ```ts
-export type Target = string | Window | Element | NodeListOf<Element> | Element[];
+export type Target =
+  | string
+  | Window
+  | Element
+  | NodeListOf<Element>
+  | Element[];
 ```
 
 - `string` will be resolved to `document.querySelectorAll(target)`
@@ -64,12 +71,6 @@ export type Target = string | Window | Element | NodeListOf<Element> | Element[]
 - `Element[]`
 
 ## Options
-
-You can pass in options to restoreScroll as the second argument:
-
-```js
-restoreScroll(target, options);
-```
 
 The type signature of the options object:
 

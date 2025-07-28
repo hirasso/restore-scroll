@@ -34,9 +34,19 @@ Or include the minified production file from a CDN:
 ```js
 import { restoreScroll } from "restore-scroll";
 /**
- * Store the scroll position of the window (=:root) and all overflowing
- * divs (tailwind classes in this case):
+ * Store the scroll position all overflowing divs (identified by tailwind classes in this case):
  */
+restoreScroll(
+  document.querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto")
+);
+```
+
+<!--See also this [minimal example on CodePen](https://codepen.io/rassohilber/pen/JjxwJpo)-->
+
+💡 If `history.scrollRestoration` is set to `manual`, you might want to restore the `:root` scroll position as well:
+
+```js
+window.history.scrollRestoration = "manual";
 restoreScroll(
   document.querySelectorAll(
     ":root,.overflow-y-auto,.overflow-x-auto,.overflow-auto"
@@ -44,22 +54,12 @@ restoreScroll(
 );
 ```
 
-<!--See also this [minimal example on CodePen](https://codepen.io/rassohilber/pen/JjxwJpo)-->
-
-💡 If `history.scrollRestoration` is set to `manual`, you might want to restore the `window` scroll position as well:
-
-```js
-window.history.scrollRestoration = 'manual';
-restoreScroll(window);
-restoreScroll(document.querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto"));
-```
-
 ## Options
 
 You can pass in options to restoreScroll as the second argument:
 
 ```js
-restoreScroll(document.querySelectorAll(".scroller"), options);
+restoreScroll(document.querySelectorAll(".overflow-y-auto"), options);
 ```
 
 The type signature of the options object:
@@ -72,4 +72,4 @@ type Options = {
 
 ### `debug`
 
-Type: `boolean`, default: `false`. Log debug messages to the console
+Type: `boolean`, default: `false`. Log debug info to the console

@@ -50,15 +50,14 @@
     "test:e2e:install": "pnpm exec playwright install --with-deps"
   },
   "devDependencies": {
-    "@astrojs/mdx": "^3.1.7",
     "@changesets/cli": "^2.28.1",
     "@playwright/test": "^1.54.1",
+    "@tailwindcss/vite": "^4.1.11",
     "astro": "^4.15.9",
-    "astro-expressive-code": "^0.37.0",
     "astro-feather": "^1.0.0",
-    "jsdom": "^25.0.1",
     "microbundle": "^0.15.1",
     "prettier": "^3.3.3",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.6.2",
     "vitest": "^2.1.1"
   },

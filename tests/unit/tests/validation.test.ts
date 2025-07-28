@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  getScrollState,
+  readScrollState,
   isScrollPosition,
   isScrollState,
 } from "../../../src/helpers.ts";

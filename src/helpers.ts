@@ -78,14 +78,6 @@ export function isScrollState(value: unknown): value is ScrollState {
 }
 
 /**
- * Get stored restore-scroll state, filter out invalid records
- */
-export function getScrollState(): ScrollState {
-  const state = window.history.state?.restoreScroll;
-  return isScrollState(state) ? state : {};
-}
-
-/**
  * Create a unique CSS selector for a given DOM element.
  * The selector is built from tag names, IDs, classes, and :nth-child where necessary.
  */
@@ -173,4 +165,29 @@ export function readStorageSelector(
   }
 
   return selector;
+}
+
+/**
+ * Read the scroll state from the current history
+ */
+export function readScrollState(): ScrollState {
+  const state = window.history.state?.restoreScroll;
+  return isScrollState(state) ? state : {};
+}
+
+/**
+ * Commit the provided scroll state to the history
+ */
+export function commitScrollState(state: ScrollState) {
+  if (!isScrollState(state)) {
+    return console.error("Invalid scroll state", state);
+  }
+
+  window.history.replaceState(
+    {
+      ...(window.history.state ?? {}),
+      restoreScroll: state,
+    },
+    ""
+  );
 }

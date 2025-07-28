@@ -1,24 +1,21 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
-import { getScrollState } from "../../../src/helpers.ts";
+import { commitScrollState, readScrollState } from "../../../src/helpers.ts";
 
-describe("getScrollState", () => {
+describe("readScrollState", () => {
+  beforeEach(() => {
+    commitScrollState({});
+  });
+
   it("should return the scroll state from the history", () => {
     const expected = { ":root": { top: 100, left: 200 } };
-    window.history.replaceState(
-      { restoreScroll: expected },
-      "",
-      window.location.href
-    );
-    expect(getScrollState()).toEqual(expected);
+    commitScrollState(expected);
+    expect(readScrollState()).toEqual(expected);
   });
 
   it("should return an empty object on failure", () => {
-    window.history.replaceState(
-      { restoreScroll: { anything: { top: 100 } } },
-      "",
-      window.location.href
-    );
-    expect(getScrollState()).toEqual({});
+    /** @ts-expect-error passing invalid scroll state */
+    commitScrollState({ anything: { top: 100 } });
+    expect(readScrollState()).toEqual({});
   });
 });

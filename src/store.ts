@@ -1,12 +1,15 @@
 import type { Logger, ScrollContainer, ScrollState } from "./defs.js";
-import { getScrollState, readStorageSelector } from "./helpers.js";
+import {
+  readScrollState,
+  readStorageSelector,
+  commitScrollState,
+} from "./helpers.js";
 
 /**
  * Store the current scroll position of an element to the history state
  */
 export function store(element: ScrollContainer, logger?: Logger): void {
-  const state = window.history.state || {};
-  const restoreScroll = getScrollState();
+  const state = readScrollState();
 
   const selector = readStorageSelector(element, logger);
   if (!selector) {
@@ -14,14 +17,9 @@ export function store(element: ScrollContainer, logger?: Logger): void {
   }
 
   const { scrollTop: top, scrollLeft: left } = element;
-  restoreScroll[selector] = { top, left };
+  state[selector] = { top, left };
 
-  const newState = {
-    ...state,
-    restoreScroll,
-  };
-
-  window.history.replaceState(newState, "");
+  commitScrollState(state);
 
   logger?.log("stored:", { element, top, left });
 }
@@ -30,7 +28,7 @@ export function store(element: ScrollContainer, logger?: Logger): void {
  * Store all positions before unload
  */
 export function storeAll(): void {
-  const restoreScroll: ScrollState = {};
+  const state: ScrollState = {};
 
   document
     .querySelectorAll<ScrollContainer>("[data-restore-scroll]")
@@ -38,16 +36,11 @@ export function storeAll(): void {
       const selector = readStorageSelector(el);
       if (!selector) return;
 
-      restoreScroll[selector] = {
+      state[selector] = {
         top: el.scrollTop,
         left: el.scrollLeft,
       };
     });
 
-  const newState = {
-    ...(window.history.state || {}),
-    restoreScroll,
-  };
-
-  window.history.replaceState(newState, "");
+  commitScrollState(state);
 }

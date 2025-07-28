@@ -33,7 +33,7 @@ export default function restoreScroll(
 
   /** Resolve the window to the root scrolling element */
   const element = (
-    target instanceof Window
+    target === window
       ? (document.scrollingElement ?? document.documentElement)
       : target
   ) as ScrollContainer;

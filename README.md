@@ -1,6 +1,6 @@
 # @hirasso/restore-scroll
 
-**Store and restore the scroll positions of the window and overflowing divs between page reloads ♻️**
+**Restore the scroll position of the window and overflowing divs from the history state ♻️**
 
 [![e2e test status](https://img.shields.io/github/actions/workflow/status/hirasso/restore-scroll/e2e-tests.yml?branch=main&label=e2e%20tests)](https://github.com/hirasso/restore-scroll/actions/workflows/e2e-tests.yml)
 [![unit test status](https://img.shields.io/github/actions/workflow/status/hirasso/restore-scroll/unit-tests.yml?branch=main&label=unit%20tests)](https://github.com/hirasso/restore-scroll/actions/workflows/unit-tests.yml)

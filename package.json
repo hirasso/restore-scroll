@@ -1,8 +1,8 @@
 {
-  "name": "restore-scroll",
-  "amdName": "restore-scroll",
+  "name": "@hirasso/restore-scroll",
+  "amdName": "restoreScroll",
   "version": "0.0.0",
-  "description": "Remember scroll positions of the window and elements between reloads",
+  "description": "Restore the scroll position of the window and overflowing divs from the history state ♻️",
   "packageManager": "pnpm@10.13.1",
   "author": {
     "name": "Rasso Hilber",

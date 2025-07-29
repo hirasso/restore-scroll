@@ -3,6 +3,7 @@ import type {
   ScrollContainer,
   ScrollPosition,
   ScrollState,
+  Target,
 } from "./defs.js";
 
 /** The logger prefix for the debug mode */
@@ -132,7 +133,7 @@ function createUniqueSelector(el: Element): string {
 /**
  * Get the storage key for an element
  */
-export function createStorageSelector(
+export function createContainerSelector(
   element: Element,
   logger?: Logger
 ): string {
@@ -148,7 +149,7 @@ export function createStorageSelector(
 /**
  * Read the storage selector, log if none exists
  */
-export function readStorageSelector(
+export function readContainerSelector(
   element: ScrollContainer,
   logger?: Logger
 ): string | undefined {
@@ -190,4 +191,37 @@ export function commitScrollState(state: ScrollState) {
     },
     ""
   );
+}
+
+/**
+ * Resolve a target
+ */
+export function resolveTarget(target: Target | null): Element[] {
+  /** The window */
+  if (target === window) {
+    return [document.scrollingElement ?? document.documentElement];
+  }
+
+  /** One element */
+  if (target instanceof Element) {
+    return [target];
+  }
+
+  /** Handle a string like a selector */
+  if (typeof target === "string") {
+    return [...document.querySelectorAll(target)];
+  }
+
+  /** Ensure an array */
+  if (target instanceof NodeList) {
+    return [...target];
+  }
+
+  /** Not an array */
+  if (!Array.isArray(target)) {
+    return [];
+  }
+
+  /** Filter out records */
+  return target.filter((record) => record instanceof Element);
 }

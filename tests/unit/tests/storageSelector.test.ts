@@ -1,11 +1,11 @@
 import { afterEach, describe, expect, it } from "vitest";
 
-import { createStorageSelector } from "../../../src/helpers.ts";
+import { createContainerSelector } from "../../../src/helpers.ts";
 import { createElement } from "../support.ts";
 import restoreScroll from "../../../src/restoreScroll.ts";
 import { ScrollContainer } from "../../../src/defs.ts";
 
-describe("createStorageSelector", () => {
+describe("createContainerSelector", () => {
   afterEach(() => {
     document.body.innerHTML = "";
   });
@@ -20,14 +20,14 @@ describe("createStorageSelector", () => {
           </main>
         `)
     );
-    expect(createStorageSelector(document.querySelector(".scroller")!)).toEqual(
+    expect(createContainerSelector(document.querySelector(".scroller")!)).toEqual(
       "html > body:nth-child(2) > main > div.scroller:nth-child(3)"
     );
   });
 
   it("should use ':root' if not inside the body", () => {
-    expect(createStorageSelector(document.documentElement)).toEqual(":root");
-    expect(createStorageSelector(document.body)).toEqual(":root");
+    expect(createContainerSelector(document.documentElement)).toEqual(":root");
+    expect(createContainerSelector(document.body)).toEqual(":root");
   });
 
   it("should use the [id] attribute if available", () => {
@@ -41,7 +41,7 @@ describe("createStorageSelector", () => {
         `)
     );
 
-    expect(createStorageSelector(document.querySelector("#scroller")!)).toEqual(
+    expect(createContainerSelector(document.querySelector("#scroller")!)).toEqual(
       "#scroller"
     );
   });

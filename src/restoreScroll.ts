@@ -1,10 +1,10 @@
-import type { Target, Options, ScrollContainer } from "./defs.js";
+import type { Target, Options, ScrollContainer, Logger } from "./defs.js";
 
 import {
   debounce,
   createLogger,
-  createStorageSelector,
-  isRecord,
+  createContainerSelector,
+  resolveTarget,
 } from "./helpers.js";
 import { restore } from "./restore.js";
 import { store, storeAll } from "./store.js";
@@ -27,34 +27,29 @@ export default function restoreScroll(
   const settings = { ...defaults, ...options };
   const logger = settings.debug ? createLogger() : undefined;
 
-  if (!target || isRecord(target)) {
-    return logger?.error("No target provided");
+  const elements = resolveTarget(target);
+
+  if (!elements.length) {
+    logger?.warn("No targets found");
+    return;
   }
 
-  /** Handle a string like a selector */
-  if (typeof target === "string") {
-    target = document.querySelectorAll(target);
+  elements.forEach((el) => initializeScrollContainer(el, logger));
+
+  /** Store all on beforeunload */
+  if (!hookedIntoBeforeUnlad) {
+    hookedIntoBeforeUnlad = true;
+    window.addEventListener("beforeunload", storeAll);
   }
+}
 
-  /** Handle a collection of targets recursively */
-  if (target instanceof NodeList || Array.isArray(target)) {
-    const targets = [...target];
-
-    return !!targets.length
-      ? targets.forEach((target) => restoreScroll(target, options))
-      : logger?.error("No targets found");
-  }
-
-  /** Resolve the window to the root scrolling element */
-  const element = (
-    target === window
-      ? (document.scrollingElement ?? document.documentElement)
-      : target
-  ) as ScrollContainer;
-
+/**
+ * Initialize a scroll container
+ */
+function initializeScrollContainer(element: ScrollContainer, logger?: Logger) {
   /** Prevent double initialization */
   if (element.hasAttribute("data-restore-scroll")) {
-    return logger?.error("Already handled:", element);
+    return logger?.warn("Already initialized:", element);
   }
 
   /** Mark the element */
@@ -62,7 +57,7 @@ export default function restoreScroll(
 
   /** Create and store the selector in the element */
   element.__restore_scroll = {
-    selector: createStorageSelector(element, logger),
+    selector: createContainerSelector(element, logger),
   };
 
   const scrollTarget = element.matches("body *") ? element : window;
@@ -71,11 +66,4 @@ export default function restoreScroll(
   scrollTarget.addEventListener("scroll", onScroll, { passive: true });
 
   restore(element, logger);
-
-  /** Store all on beforeunload */
-  if (!hookedIntoBeforeUnlad) {
-    hookedIntoBeforeUnlad = true;
-    window.addEventListener("beforeunload", storeAll);
-  }
-  return { element };
 }

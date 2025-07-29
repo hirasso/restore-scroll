@@ -1,11 +1,11 @@
 import type { Logger, ScrollContainer } from "./defs.js";
-import { readScrollState, readStorageSelector, isScrollPosition } from "./helpers.js";
+import { readScrollState, readContainerSelector, isScrollPosition } from "./helpers.js";
 
 /**
  * Restore the scroll position of an element.
  */
 export function restore(element: ScrollContainer, logger?: Logger): void {
-  const selector = readStorageSelector(element, logger);
+  const selector = readContainerSelector(element, logger);
   if (!selector) return;
 
   const position = readScrollState()[selector];

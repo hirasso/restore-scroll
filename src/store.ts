@@ -1,7 +1,7 @@
 import type { Logger, ScrollContainer, ScrollState } from "./defs.js";
 import {
   readScrollState,
-  readStorageSelector,
+  readContainerSelector,
   commitScrollState,
 } from "./helpers.js";
 
@@ -11,7 +11,7 @@ import {
 export function store(element: ScrollContainer, logger?: Logger): void {
   const state = readScrollState();
 
-  const selector = readStorageSelector(element, logger);
+  const selector = readContainerSelector(element, logger);
   if (!selector) {
     return;
   }
@@ -33,7 +33,7 @@ export function storeAll(): void {
   document
     .querySelectorAll<ScrollContainer>("[data-restore-scroll]")
     .forEach((el) => {
-      const selector = readStorageSelector(el);
+      const selector = readContainerSelector(el);
       if (!selector) return;
 
       state[selector] = {

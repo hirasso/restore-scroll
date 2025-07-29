@@ -28,16 +28,16 @@ describe("Logger", () => {
   it("should log if debug is true", () => {
     restoreScroll(document.querySelector(".scroller"), { debug: true });
 
-    expect(errorSpy).toBeCalledWith(
+    expect(warnSpy).toBeCalledWith(
       expect.anything(),
       expect.anything(),
-      "Already handled:",
+      "Already initialized:",
       expect.anything()
     );
   });
 
   it("should not log if debug is false", () => {
     restoreScroll(document.querySelector(".scroller"), { debug: false });
-    expect(errorSpy).not.toBeCalled();
+    expect(warnSpy).not.toBeCalled();
   });
 });

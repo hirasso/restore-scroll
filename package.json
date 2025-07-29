@@ -32,6 +32,7 @@
     "dist"
   ],
   "scripts": {
+    "prepare": "husky",
     "clean": "rm -rf ./dist",
     "format": "pnpm exec prettier 'src/**/*.{js,ts,mjs}' --write",
     "prepublishOnly": "pnpm run build",
@@ -56,6 +57,8 @@
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^4.15.9",
     "astro-feather": "^1.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "microbundle": "^0.15.1",
     "prettier": "^3.3.3",
     "swup": "^4.8.2",

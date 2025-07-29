@@ -1,0 +1,42 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import AnchorsPageContent from "../components/AnchorsPageContent.astro";
+---
+
+<Layout isFrontPage={true}>
+  <p slot="after-header">Scroll nested containers</p>
+
+  <Nav
+    links={[
+			{
+        href: "/",
+        title: "Leave SPA demo",
+        description: "Go back to the start page",
+        direction: "left",
+      },
+      {
+        href: "/spa-1.html",
+        title: "Page 1",
+        description: "Go to the first page",
+      },
+    ]}
+  />
+
+  <AnchorsPageContent />
+
+  <Nav
+    links={[
+      {
+        href: "#top",
+        title: "Top",
+        description: "Scroll to the top of the page",
+        direction: "up",
+      },
+    ]}
+  />
+</Layout>
+
+<script>
+  import "../js/spa.js";
+</script>

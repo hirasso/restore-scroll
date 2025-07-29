@@ -1,32 +1,23 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Nav from '../components/Nav.astro';
-import AnchorsPageContent from '../components/AnchorsPageContent.astro';
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import AnchorsPageContent from "../components/AnchorsPageContent.astro";
 ---
 
 <Layout isFrontPage={true}>
-	<p slot="after-header">Scroll nested containers</p>
+  <p slot="after-header">Scroll nested containers</p>
 
-	<Nav
-		links={[
-			{
-				href: '/page-2.html',
-				title: 'Page 2',
-				description: 'Visit another page',
-			}
-		]}
-	/>
+  <Nav
+    links={[]}
+  />
 
-	<AnchorsPageContent />
+  <AnchorsPageContent />
 
-	<Nav
-		links={[
-			{
-				href: '#top',
-				title: 'Top',
-				description: 'Scroll to the top of the page',
-				direction: 'up'
-			},
-		]}
-	/>
+  <Nav
+    links={[]}
+  />
 </Layout>
+
+<script>
+  import '../js/simple.js'
+</script>

@@ -10,10 +10,16 @@ import AnchorsPageContent from '../components/AnchorsPageContent.astro';
 	<Nav
 		links={[
 			{
-				href: '/',
-				title: 'Index',
-				description: 'Go back to the index page',
-				direction: "left"
+        href: "/",
+        title: "Leave SPA demo",
+        description: "Go back to the start page",
+        direction: "left",
+      },
+			{
+				href: '/spa-2.html',
+				title: 'Page 2',
+				description: 'Go to another page',
+				direction: "right"
 			}
 		]}
 	/>
@@ -31,3 +37,7 @@ import AnchorsPageContent from '../components/AnchorsPageContent.astro';
 		]}
 	/>
 </Layout>
+
+<script>
+	import '../js/spa.js';
+</script>

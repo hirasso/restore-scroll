@@ -20,6 +20,13 @@ export function store(
   }
 
   const { scrollTop: top, scrollLeft: left } = element;
+
+  /** do not store again if there is no change */
+  const stored = state[selector] || {};
+  if (stored.top === top && stored.left === left) {
+    return;
+  }
+
   state[selector] = { top, left };
 
   onStore(element, { top, left });

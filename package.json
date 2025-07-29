@@ -2,7 +2,7 @@
   "name": "@hirasso/restore-scroll",
   "amdName": "restoreScroll",
   "version": "0.0.1",
-  "description": "Restore the scroll position of the window and overflowing divs from the history state ♻️",
+  "description": "Zero-dependency scroll restoration for window and scrollable elements using history.state ♻️",
   "packageManager": "pnpm@10.13.1",
   "author": {
     "name": "Rasso Hilber",

@@ -2,7 +2,7 @@
 
 :root {
 	--saturation: 100%;
-	--lightness: 80%;
+	--lightness: 70%;
 	--swup-fade-theme-duration: 150ms;
 	font-size: clamp(16px, 2vw, 18px);
 }

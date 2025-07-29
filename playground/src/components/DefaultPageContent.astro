@@ -3,6 +3,7 @@ import Tiles from './Tiles.astro';
 import Table from './Table.astro';
 import DebugInfo from "./DebugInfo.astro";
 import Nav from './Nav.astro';
+import feather from 'feather-icons';
 ---
 
 <div class="space-y-5 mb-4">
@@ -13,7 +14,7 @@ import Nav from './Nav.astro';
 		>
 			<Tiles amount={100} direction="vertical" idPrefix="vertical" />
 		</div>
-		<DebugInfo />
+		<DebugInfo text="scroll me!" />
 	</section>
 
 	<section data-testid="horizontal" class="relative">
@@ -23,7 +24,7 @@ import Nav from './Nav.astro';
 		>
 			<Tiles amount={50} direction="horizontal" idPrefix="horizontal" />
 		</div>
-		<DebugInfo />
+		<DebugInfo text="scroll me!"/>
 	</section>
 
 	<section data-testid="both-axis" class="relative">
@@ -33,7 +34,7 @@ import Nav from './Nav.astro';
 		>
 			<Table rows={20} columns={20} idPrefix="both-axis" />
 		</div>
-		<DebugInfo />
+		<DebugInfo text=`scroll me!` />
 	</section>
 
 </div>

@@ -1,8 +1,13 @@
 ---
+export interface Props {
+	text: string;
+}
+const { text } = Astro.props;
 ---
 
 <p
   data-debug-info
-  class="absolute bottom-0 right-0 rounded-tl-md bg-black text-white px-2 py-1 hidden font-mono text-xs"
+  class="absolute top-0 right-0 rounded-bl-md bg-black text-white px-2 py-1 font-mono text-xs"
 >
+  {text}
 </p>

@@ -35,11 +35,11 @@ const {
   <body>
     <Header />
 
-    <div class="m-4">
-      <slot name="after-header" />
-    </div>
-
     <div id="swup" class="m-4">
+      <div class="my-4">
+        <slot name="after-header" />
+      </div>
+
       <header class="mb-10" class:list={[{ "sr-only": hideHeader }]}>
         <h1 class="text-4xl font-bold mb-0.5">{SITE_TITLE}</h1>
         <div class="font-bold"><slot name="after-header" /></div>

@@ -57,6 +57,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^4.15.9",
     "astro-feather": "^1.0.0",
+    "feather-icons": "^4.29.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "microbundle": "^0.15.1",

@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Tiles from "../components/Tiles.astro";
+---
+
+<Layout isFrontPage={true}>
+  <p slot="after-header">Store the window scroll position</p>
+
+  <Nav links={[]} />
+
+  <div class="-mx-4 mb-4">
+  <Tiles amount={100} direction="vertical" idPrefix="vertical" />
+  </div>
+
+  <Nav
+    links={[
+      {
+        href: "/",
+        title: "Leave window demo",
+        description: "Go back to the start page",
+        direction: "left",
+      },
+    ]}
+  />
+</Layout>
+
+<p
+  data-global-debug-info
+  class="fixed bottom-0 right-0 rounded-tl-md bg-black text-white px-2 py-1 hidden font-mono text-xs"
+>
+</p>
+
+<script>
+  import { restoreScroll } from "../../../src/index.js";
+  import { showDebugInfo } from "../js/global.js";
+
+  window.history.scrollRestoration = "manual";
+  restoreScroll(":root,.overflow-y-auto,.overflow-x-auto,.overflow-auto", {
+    debug: true,
+    onStore: (el, position) => showDebugInfo("stored", el, position),
+    onRestore: (el, position) => showDebugInfo("restored", el, position),
+  });
+</script>

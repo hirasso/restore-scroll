@@ -1,23 +1,42 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
-import AnchorsPageContent from "../components/AnchorsPageContent.astro";
+import DefaultPageContent from "../components/DefaultPageContent.astro";
+import { SITE_DESCRIPTION } from "../consts.ts";
 ---
 
 <Layout isFrontPage={true}>
-  <p slot="after-header">Scroll nested containers</p>
+  <p slot="after-header">{SITE_DESCRIPTION}</p>
+
+  <Nav links={[]} />
+
+  <DefaultPageContent />
 
   <Nav
-    links={[]}
-  />
-
-  <AnchorsPageContent />
-
-  <Nav
-    links={[]}
+    links={[
+      {
+        href: "/spa-1.html",
+        title: "SPA Demo",
+        description: "Inside a single page app",
+      },
+      {
+        href: "/window.html",
+        title: "Window Demo",
+        description: "With scrollRestoration='manual'",
+      },
+    ]}
   />
 </Layout>
 
 <script>
-  import '../js/simple.js'
+  import { showDebugInfo } from "../js/global.js";
+  import { restoreScroll } from "../../../src/index.js";
+
+  window.history.scrollRestoration = "auto";
+
+  restoreScroll(".overflow-y-auto,.overflow-x-auto,.overflow-auto", {
+    debug: true,
+    onStore: (el, position) => showDebugInfo('stored', el, position),
+    onRestore: (el, position) => showDebugInfo('restored', el, position),
+  });
 </script>

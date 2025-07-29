@@ -1,4 +1,4 @@
-import type { Logger, ScrollContainer, ScrollState } from "./defs.js";
+import type { ScrollContainer, ScrollState, Settings } from "./defs.js";
 import {
   readScrollState,
   readContainerSelector,
@@ -8,7 +8,10 @@ import {
 /**
  * Store the current scroll position of an element to the history state
  */
-export function store(element: ScrollContainer, logger?: Logger): void {
+export function store(
+  element: ScrollContainer,
+  { onStore, logger }: Settings,
+): void {
   const state = readScrollState();
 
   const selector = readContainerSelector(element, logger);
@@ -19,6 +22,7 @@ export function store(element: ScrollContainer, logger?: Logger): void {
   const { scrollTop: top, scrollLeft: left } = element;
   state[selector] = { top, left };
 
+  onStore(element, { top, left });
   commitScrollState(state);
 
   logger?.log("stored:", { element, top, left });
@@ -34,12 +38,11 @@ export function storeAll(): void {
     .querySelectorAll<ScrollContainer>("[data-restore-scroll]")
     .forEach((el) => {
       const selector = readContainerSelector(el);
-      if (!selector) return;
+      const { scrollTop: top, scrollLeft: left } = el;
 
-      state[selector] = {
-        top: el.scrollTop,
-        left: el.scrollLeft,
-      };
+      if (!selector || (!top && !left)) return;
+
+      state[selector] = { top, left };
     });
 
   commitScrollState(state);

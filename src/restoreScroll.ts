@@ -1,4 +1,4 @@
-import type { Target, Options, ScrollContainer, Logger } from "./defs.js";
+import type { Target, Options, ScrollContainer, Settings } from "./defs.js";
 
 import {
   debounce,
@@ -12,6 +12,8 @@ import { store, storeAll } from "./store.js";
 /** The default options */
 const defaults: Options = {
   debug: false,
+  onStore: () => {},
+  onRestore: () => {},
 };
 
 /** Hook into beforeunload */
@@ -22,19 +24,19 @@ let hookedIntoBeforeUnlad = false;
  */
 export default function restoreScroll(
   target: Target | null,
-  options: Partial<Options> = {}
+  options: Partial<Options> = {},
 ) {
-  const settings = { ...defaults, ...options };
-  const logger = settings.debug ? createLogger() : undefined;
+  const settings: Settings = { ...defaults, ...options };
+  settings.logger = settings.debug ? createLogger() : undefined;
 
   const elements = resolveTarget(target);
 
   if (!elements.length) {
-    logger?.warn("No targets found");
+    settings.logger?.warn("No targets found");
     return;
   }
 
-  elements.forEach((el) => initializeScrollContainer(el, logger));
+  elements.forEach((el) => initializeScrollContainer(el, settings));
 
   /** Store all on beforeunload */
   if (!hookedIntoBeforeUnlad) {
@@ -46,24 +48,28 @@ export default function restoreScroll(
 /**
  * Initialize a scroll container
  */
-function initializeScrollContainer(element: ScrollContainer, logger?: Logger) {
+async function initializeScrollContainer(
+  element: ScrollContainer,
+  settings: Settings,
+) {
+  const { onStore, onRestore, logger } = settings;
+
   /** Prevent double initialization */
   if (element.hasAttribute("data-restore-scroll")) {
-    return logger?.warn("Already initialized:", element);
+    return settings.logger?.warn("Already initialized:", element);
   }
 
   /** Mark the element */
   element.setAttribute("data-restore-scroll", "");
 
   /** Create and store the selector in the element */
-  element.__restore_scroll = {
-    selector: createContainerSelector(element, logger),
-  };
+  const selector = createContainerSelector(element, settings.logger);
+  element.__restore_scroll = { selector };
 
   const scrollTarget = element.matches("body *") ? element : window;
-  const onScroll = debounce(() => store(element, logger), 150);
+  const onScroll = debounce(() => store(element, settings), 150);
 
   scrollTarget.addEventListener("scroll", onScroll, { passive: true });
 
-  restore(element, logger);
+  restore(element, settings);
 }

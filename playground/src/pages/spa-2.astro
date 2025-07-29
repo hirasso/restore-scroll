@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
-import AnchorsPageContent from "../components/AnchorsPageContent.astro";
+import DefaultPageContent from "../components/DefaultPageContent.astro";
 ---
 
 <Layout isFrontPage={true}>
@@ -9,12 +9,6 @@ import AnchorsPageContent from "../components/AnchorsPageContent.astro";
 
   <Nav
     links={[
-			{
-        href: "/",
-        title: "Leave SPA demo",
-        description: "Go back to the start page",
-        direction: "left",
-      },
       {
         href: "/spa-1.html",
         title: "Page 1",
@@ -23,15 +17,15 @@ import AnchorsPageContent from "../components/AnchorsPageContent.astro";
     ]}
   />
 
-  <AnchorsPageContent />
+  <DefaultPageContent />
 
   <Nav
     links={[
       {
-        href: "#top",
-        title: "Top",
-        description: "Scroll to the top of the page",
-        direction: "up",
+        href: "/",
+        title: "Leave SPA demo",
+        description: "Go back to the start page",
+        direction: "left",
       },
     ]}
   />

@@ -9,7 +9,6 @@ import Nav from './Nav.astro';
 		<h2>Vertical</h2>
 		<div
 			class="outline-2 rounded-sm overflow-y-auto h-50 w-full --vertical"
-			data-swup-scroll-container
 			data-testid="vertical-scroll-container"
 		>
 			<Tiles amount={100} direction="vertical" idPrefix="vertical" />
@@ -20,7 +19,6 @@ import Nav from './Nav.astro';
 		<h2>Horizontal</h2>
 		<div
 			class="outline-2 rounded-sm w-full overflow-x-auto --horizontal"
-			data-swup-scroll-container
 			data-testid="horizontal-scroll-container"
 		>
 			<Tiles amount={50} direction="horizontal" idPrefix="horizontal" />
@@ -31,7 +29,6 @@ import Nav from './Nav.astro';
 		<h2>Both axis</h2>
 		<div
 			class="outline-2 rounded-sm w-full h-100 overflow-auto"
-			data-swup-scroll-container
 			data-testid="both-axis-scroll-container"
 		>
 			<Table rows={20} columns={20} idPrefix="both-axis" />

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1
+
+### Patch Changes
+
+- b9ec453: Allow elements to be restored if only one axis has a length `> 0`
+- ccd6d25: Cleanup and more tests
+
 ## 0.1.0
 
 ### Minor Changes

@@ -33,53 +33,87 @@ Or import the module directly from a CDN for quick tests:
 
 ## Usage
 
-`restoreScroll` accepts two arguments: The `target`(s) and optional `options`.
-
 ```js
 /**
  * Store the scroll position all overflowing divs (identified by tailwind classes in this case):
  */
-restoreScroll(".overflow-y-auto,.overflow-x-auto,.overflow-auto", {
-  debug: true,
-});
+document.querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto").forEach(restoreScroll);
 ```
 
 💡 If `history.scrollRestoration` is set to `manual`, you might want to restore the `:root` scroll position as well:
 
 ```js
 window.history.scrollRestoration = "manual";
-restoreScroll(":root,.overflow-y-auto,.overflow-x-auto,.overflow-auto");
+restoreScroll(window);
 ```
 
-## Target
+## Arguments
 
-The first argument accepts the following:
+The first argument `target` accepts either an element or the `Window`:
 
 ```ts
-export type Target =
-  | string
-  | Window
-  | Element
-  | NodeListOf<Element>
-  | Element[];
+export type Target = Element | Window;
 ```
 
-- `string` will be resolved to `document.querySelectorAll(target)`
-- `Window` is the equivalent to `:root`
-- `Element`
-- `NodeListOf<Element>`
-- `Element[]`
+The second argument `options` accepts this:
 
-## Options
-
-The type signature of the options object:
-
-```js
+```ts
 type Options = {
   debug: boolean;
+  events?: {
+    "store"?: (el: Element, event: CustomEvent<position: ScrollPosition>) => void,
+    "restore"?: (el: Element, event: CustomEvent<position: ScrollPosition>) => void,
+  }
 }
 ```
+
+## Options
 
 ### `debug`
 
 Type: `boolean`, default: `false`. Log debug info to the console
+
+## Events
+
+Listening to events can be done in two ways:
+
+### Attach listeners declaratively
+
+```ts
+import { restoreScroll } from "@hirasso/restore-scroll";
+restoreScroll(el, {
+  events: {
+    store: (el, event) => console.log("stored", el, event),
+    restore: (el, event) => console.log("restored", el, event),
+  },
+});
+```
+
+### Attach listeners to the element directly
+
+DOM Events are prefixed `restore-scroll:`:
+
+```ts
+import { restoreScroll } from "@hirasso/restore-scroll";
+const el = document.querySelector("#foo");
+el.addEventListener("restore-scroll:restore", (e) => {
+  const event = e as CustomEvent<{ position: ScrollPosition }>;
+  console.log(event.detail.position);
+});
+restoreScroll(el);
+```
+
+You can prevent events from executing by calling `event.preventDefault`:
+
+```ts
+restoreScroll(el, {
+  events: {
+    restore: (el, event) => {
+      if (someCondition()) {
+        /** The element won't be restored */
+        event.preventDefault();
+      }
+    },
+  },
+});
+```

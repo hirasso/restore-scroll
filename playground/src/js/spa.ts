@@ -2,14 +2,19 @@ import Swup from "swup";
 import Theme from "@swup/fade-theme";
 import { restoreScroll } from "../../../src/index.js";
 import { showDebugInfo } from "./global.js";
+import { $$ } from "./helpers.js";
 
 window.history.scrollRestoration = "auto";
 
 function initPage() {
-  restoreScroll(".overflow-y-auto,.overflow-x-auto,.overflow-auto", {
-    debug: true,
-    onStore: (el, position) => showDebugInfo("stored", el, position),
-    onRestore: (el, position) => showDebugInfo("restored", el, position),
+  $$(".overflow-y-auto,.overflow-x-auto,.overflow-auto").forEach((el) => {
+    restoreScroll(el, {
+      debug: true,
+      events: {
+        restore: showDebugInfo,
+        store: showDebugInfo,
+      },
+    });
   });
 }
 

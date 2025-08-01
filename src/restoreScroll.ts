@@ -30,14 +30,14 @@ export default function restoreScroll(
     logger: merged.debug ? createLogger() : undefined,
   };
 
-  const elements = resolveTarget(target);
+  const element = resolveTarget(target);
 
-  if (!elements.length) {
-    settings.logger?.warn("No targets found");
+  if (!element) {
+    settings.logger?.error("No element found");
     return;
   }
 
-  elements.forEach((el) => initializeScrollContainer(el, settings));
+  initialize(element, settings);
 
   /** Store all on beforeunload */
   if (!hookedIntoBeforeUnlad) {
@@ -49,10 +49,7 @@ export default function restoreScroll(
 /**
  * Initialize a scroll container
  */
-async function initializeScrollContainer(
-  element: ScrollContainer,
-  settings: Settings
-) {
+async function initialize(element: ScrollContainer, settings: Settings) {
   const { logger } = settings;
 
   /** Prevent double initialization */

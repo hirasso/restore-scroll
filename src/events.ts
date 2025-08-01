@@ -25,14 +25,3 @@ export function dispatch<K extends keyof EventMap>(
   // Return false if default was prevented by either
   return !event.defaultPrevented && dispatched;
 }
-
-/**
- * Add a typed listener
- */
-export function addListener<K extends keyof EventMap>(
-  el: Element,
-  type: K,
-  listener: (ev: EventMap[K]) => void
-) {
-  el.addEventListener(`${domPrefix}:${type}`, listener as EventListener);
-}

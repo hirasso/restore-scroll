@@ -196,34 +196,18 @@ export function commitScrollState(state: ScrollState) {
 /**
  * Resolve a target
  */
-export function resolveTarget(target: Target | null): Element[] {
+export function resolveTarget(target: Target | null): Element | null {
   /** The window */
   if (target === window) {
-    return [document.scrollingElement ?? document.documentElement];
+    return document.scrollingElement ?? document.documentElement;
   }
 
   /** One element */
   if (target instanceof Element) {
-    return [target];
+    return target;
   }
 
-  /** Handle a string like a selector */
-  if (typeof target === "string") {
-    return [...document.querySelectorAll(target)];
-  }
-
-  /** Ensure an array */
-  if (target instanceof NodeList) {
-    return [...target];
-  }
-
-  /** Not an array */
-  if (!Array.isArray(target)) {
-    return [];
-  }
-
-  /** Filter out records */
-  return target.filter((record) => record instanceof Element);
+  return null;
 }
 
 /**

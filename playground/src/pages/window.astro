@@ -10,7 +10,7 @@ import Tiles from "../components/Tiles.astro";
   <Nav links={[]} />
 
   <div class="-mx-4 mb-4 border-y-2">
-  <Tiles amount={100} direction="vertical" idPrefix="vertical" />
+    <Tiles amount={100} direction="vertical" idPrefix="vertical" />
   </div>
 
   <Nav
@@ -36,9 +36,12 @@ import Tiles from "../components/Tiles.astro";
   import { showDebugInfo } from "../js/global.js";
 
   window.history.scrollRestoration = "manual";
-  restoreScroll(":root,.overflow-y-auto,.overflow-x-auto,.overflow-auto", {
+  restoreScroll(window, {
     debug: true,
-    onStore: (el, position) => showDebugInfo("stored", el, position),
-    onRestore: (el, position) => showDebugInfo("restored", el, position),
+    events: {
+      restore: showDebugInfo,
+      store: showDebugInfo,
+    },
   });
+
 </script>

@@ -30,13 +30,27 @@ import { SITE_DESCRIPTION } from "../consts.ts";
 
 <script>
   import { showDebugInfo } from "../js/global.js";
-  import { restoreScroll } from "../../../src/index.js";
+  import { restoreScroll, addListener } from "../../../src/index.js";
+  import { $, $$ } from "../js/helpers.js";
 
   window.history.scrollRestoration = "auto";
-
+  $$(".overflow-y-auto,.overflow-x-auto,.overflow-auto").forEach((el) => {
+    addListener(el, "store", ({ type, detail: { position } }) =>
+      console.log({ type, position })
+    );
+    addListener(el, "restore", ({ type, detail: { position } }) =>
+      console.log({ type, position })
+    );
+  });
   restoreScroll(".overflow-y-auto,.overflow-x-auto,.overflow-auto", {
     debug: true,
-    onStore: (el, position) => showDebugInfo('stored', el, position),
-    onRestore: (el, position) => showDebugInfo('restored', el, position),
+    events: {
+      restore: (el, event) => {
+        showDebugInfo("restored", el, event.detail.position);
+      },
+      store: (el, event) => {
+        showDebugInfo("restored", el, event.detail.position);
+      },
+    },
   });
 </script>

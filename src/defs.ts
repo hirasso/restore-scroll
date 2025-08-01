@@ -2,13 +2,18 @@ import { createLogger } from "./helpers.js";
 
 export type Options = {
   debug: boolean;
-  onStore: (el: Element, position: ScrollPosition) => void;
-  onRestore: (el: Element, position: ScrollPosition) => void;
+  events?: Handlers;
 };
 
-export type Settings = Options & {
-  logger?: Logger;
-};
+type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
+
+export type Settings = Prettify<
+  Omit<Options, "debug"> & {
+    logger?: Logger;
+  }
+>;
 
 export type ScrollPosition = {
   top: number;
@@ -17,7 +22,7 @@ export type ScrollPosition = {
 
 export type ScrollState = Record<string, ScrollPosition>;
 
-export type Target =
+export type Target = Element
   | string
   | Window
   | Element
@@ -30,4 +35,13 @@ export type ScrollContainer = Element & {
   __restore_scroll?: {
     selector?: string;
   };
+};
+
+export type EventMap = {
+  store: CustomEvent<{ position: ScrollPosition }>;
+  restore: CustomEvent<{ position: ScrollPosition }>;
+};
+
+export type Handlers = {
+  [K in keyof EventMap]?: (el: Element, event: EventMap[K]) => void;
 };

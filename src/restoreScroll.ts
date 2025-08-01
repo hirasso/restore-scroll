@@ -12,8 +12,6 @@ import { store, storeAll } from "./store.js";
 /** The default options */
 const defaults: Options = {
   debug: false,
-  onStore: () => {},
-  onRestore: () => {},
 };
 
 /** Hook into beforeunload */
@@ -24,10 +22,13 @@ let hookedIntoBeforeUnlad = false;
  */
 export default function restoreScroll(
   target: Target | null,
-  options: Partial<Options> = {},
+  options: Partial<Options> = {}
 ) {
-  const settings: Settings = { ...defaults, ...options };
-  settings.logger = settings.debug ? createLogger() : undefined;
+  const merged: Options = { ...defaults, ...options };
+  const settings: Settings = {
+    ...merged,
+    logger: merged.debug ? createLogger() : undefined,
+  };
 
   const elements = resolveTarget(target);
 
@@ -50,9 +51,9 @@ export default function restoreScroll(
  */
 async function initializeScrollContainer(
   element: ScrollContainer,
-  settings: Settings,
+  settings: Settings
 ) {
-  const { onStore, onRestore, logger } = settings;
+  const { logger } = settings;
 
   /** Prevent double initialization */
   if (element.hasAttribute("data-restore-scroll")) {
@@ -63,7 +64,7 @@ async function initializeScrollContainer(
   element.setAttribute("data-restore-scroll", "");
 
   /** Create and store the selector in the element */
-  const selector = createContainerSelector(element, settings.logger);
+  const selector = createContainerSelector(element, logger);
   element.__restore_scroll = { selector };
 
   const scrollTarget = element.matches("body *") ? element : window;

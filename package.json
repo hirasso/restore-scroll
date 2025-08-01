@@ -3,7 +3,7 @@
   "amdName": "restoreScroll",
   "version": "0.0.1",
   "description": "Zero-dependency scroll restoration for window and scrollable elements using history.state ♻️",
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.14.0",
   "author": {
     "name": "Rasso Hilber",
     "email": "mail@rassohilber.com",

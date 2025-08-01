@@ -1,4 +1,5 @@
 import type { Settings, ScrollContainer } from "./defs.js";
+import { dispatch } from "./events.js";
 import {
   readScrollState,
   readContainerSelector,
@@ -8,42 +9,48 @@ import {
 /**
  * Restore the scroll position of an element.
  */
-export function restore(
-  element: ScrollContainer,
-  { logger, onRestore }: Settings,
-): void {
+export function restore(element: ScrollContainer, settings: Settings): void {
+  const { logger } = settings;
   const selector = readContainerSelector(element, logger);
   if (!selector) return;
 
   const position = readScrollState()[selector];
-  let restored = false;
 
   if (!isScrollPosition(position)) {
     return;
   }
-  const { top, left } = position;
 
-  /** Wait for the element to have a height before attempting to scroll */
-  const resizeObserver = new ResizeObserver(([{ contentRect }]) => {
-    if (!contentRect.height) return;
-    resizeObserver.disconnect();
+  /**
+   * Apply the restoration
+   */
+  const apply = () => {
+    if (!dispatch(element, "restore", { position }, settings)) {
+      return logger?.log("prevented restore:", { element, ...position });
+    }
 
-    element.scrollTo({ top, left, behavior: "instant" });
-    resizeObserver.disconnect();
-    restored = true;
+    element.scrollTo({ ...position, behavior: "instant" });
+    logger?.log("restore:", { element, ...position });
+  };
 
-    onRestore(element, position);
-
-    logger?.log("restored:", { element, ...position });
-  });
-  resizeObserver.observe(element);
+  /** Apply immediately if the element has a width and height */
+  const { width, height } = element.getBoundingClientRect();
+  if (width || height) {
+    return apply();
+  }
 
   /** Do not wait longer than 100ms */
-  setTimeout(() => {
-    resizeObserver.disconnect();
-
-    if (!restored) {
-      logger?.warn("restore timed out", { selector, element, ...position });
-    }
+  const timeout = setTimeout(() => {
+    observer.disconnect();
+    logger?.warn("restore timed out", { selector, element, ...position });
   }, 100);
+
+  /** Wait for the element to have a height before attempting to scroll */
+  const observer = new ResizeObserver(([{ contentRect }]) => {
+    if (!contentRect.height) return;
+    observer.disconnect();
+    clearTimeout(timeout);
+    apply();
+  });
+
+  observer.observe(element);
 }

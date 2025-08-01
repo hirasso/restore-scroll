@@ -225,3 +225,30 @@ export function resolveTarget(target: Target | null): Element[] {
   /** Filter out records */
   return target.filter((record) => record instanceof Element);
 }
+
+/**
+ * Check if two objects contain equal values
+ */
+export function deepEqual(a: any, b: any): boolean {
+  if (a === b) return true;
+
+  if (
+    typeof a !== "object" ||
+    typeof b !== "object" ||
+    a == null ||
+    b == null
+  ) {
+    return false;
+  }
+
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+  if (keysA.length !== keysB.length) return false;
+
+  for (const key of keysA) {
+    if (!keysB.includes(key)) return false;
+    if (!deepEqual(a[key], b[key])) return false;
+  }
+
+  return true;
+}

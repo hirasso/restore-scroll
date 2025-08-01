@@ -2,4 +2,4 @@
 "@hirasso/restore-scroll": patch
 ---
 
-New callbacks `onStore` and `onRestore`
+Dispatch cancellable events: "scroll:store" and "scroll:restore"

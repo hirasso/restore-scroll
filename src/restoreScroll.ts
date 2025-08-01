@@ -47,7 +47,7 @@ export default function restoreScroll(
 }
 
 /**
- * Initialize a scroll container
+ * Initialize scroll restoration for an element
  */
 async function initialize(element: ScrollContainer, settings: Settings) {
   const { logger } = settings;

@@ -1,9 +1,11 @@
-import type { EventMap, Handlers, ScrollPosition, Settings } from "./defs.js";
+import type { EventMap, Settings } from "./defs.js";
 
-const domPrefix = "restore-scroll";
+import { prefix } from "./helpers.js";
 
 /**
- * Dispatch an event, both via the handlers option as well as the element itself
+ * Dispatch an event:
+ *  - via the "events" option
+ *  - prefixed with "restore-scroll:{eventName}" on the element itself
  */
 export function dispatch<K extends keyof EventMap>(
   el: Element,
@@ -11,7 +13,7 @@ export function dispatch<K extends keyof EventMap>(
   detail: EventMap[K]["detail"],
   settings: Settings
 ): boolean {
-  const event = new CustomEvent(`${domPrefix}:${type}`, {
+  const event = new CustomEvent(`${prefix}:${type}`, {
     detail,
     cancelable: true,
   }) as EventMap[K];

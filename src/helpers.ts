@@ -6,7 +6,7 @@ import type {
   Target,
 } from "./defs.js";
 
-/** The logger prefix for the debug mode */
+/** The logger and event prefix for the debug mode */
 export const prefix = "restore-scroll";
 
 /** Create a minimal logger with a prefix */
@@ -131,7 +131,7 @@ function createUniqueSelector(el: Element): string {
 }
 
 /**
- * Get the storage key for an element
+ * Get the container selector for an element
  */
 export function createContainerSelector(
   element: Element,
@@ -147,7 +147,7 @@ export function createContainerSelector(
 }
 
 /**
- * Read the storage selector, log if none exists
+ * Read the container selector, log if none exists
  */
 export function readContainerSelector(
   element: ScrollContainer,
@@ -202,12 +202,9 @@ export function resolveTarget(target: Target | null): Element | null {
     return document.scrollingElement ?? document.documentElement;
   }
 
-  /** One element */
-  if (target instanceof Element) {
-    return target;
-  }
-
-  return null;
+  return target instanceof Element
+    ? target
+    : null;
 }
 
 /**

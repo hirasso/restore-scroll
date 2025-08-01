@@ -50,7 +50,12 @@ export function storeAll(): void {
       const selector = readContainerSelector(el);
       const { scrollTop: top, scrollLeft: left } = el;
 
-      if (!selector || (!top && !left)) return;
+      if (!selector) return;
+
+      if (!top && !left) {
+        delete state[selector];
+        return;
+      }
 
       state[selector] = { top, left };
     });

@@ -37,10 +37,12 @@ Or import the module directly from a CDN for quick tests:
 /**
  * Store the scroll position all overflowing divs (identified by tailwind classes in this case):
  */
-document.querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto").forEach(restoreScroll);
+document
+  .querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto")
+  .forEach((el) => restoreScroll(el));
 ```
 
-💡 If `history.scrollRestoration` is set to `manual`, you might want to restore the `:root` scroll position as well:
+💡 If `history.scrollRestoration` is set to `manual`, you might want to restore the window scroll position as well:
 
 ```js
 window.history.scrollRestoration = "manual";

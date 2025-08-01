@@ -46,7 +46,7 @@ export function restore(element: ScrollContainer, settings: Settings): void {
 
   /** Wait for the element to have a height before attempting to scroll */
   const observer = new ResizeObserver(([{ contentRect }]) => {
-    if (!contentRect.height) return;
+    if (!contentRect.width && !contentRect.height) return;
     observer.disconnect();
     clearTimeout(timeout);
     apply();

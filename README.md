@@ -61,7 +61,7 @@ The second argument `options` accepts this:
 
 ```ts
 type Options = {
-  debug: boolean;
+  debug?: boolean;
   events?: {
     "store"?: (el: Element, event: CustomEvent<position: ScrollPosition>) => void,
     "restore"?: (el: Element, event: CustomEvent<position: ScrollPosition>) => void,
@@ -79,7 +79,7 @@ Type: `boolean`, default: `false`. Log debug info to the console
 
 Listening to events can be done in two ways:
 
-### Attach listeners declaratively
+### Option 1: Attach listeners declaratively
 
 ```ts
 import { restoreScroll } from "@hirasso/restore-scroll";
@@ -91,21 +91,22 @@ restoreScroll(el, {
 });
 ```
 
-### Attach listeners to the element directly
+### Option 2: Attach listeners to the element directly
 
-DOM Events are prefixed `restore-scroll:`:
+DOM events are prefixed with `restore-scroll:`:
 
 ```ts
 import { restoreScroll } from "@hirasso/restore-scroll";
 const el = document.querySelector("#foo");
 el.addEventListener("restore-scroll:restore", (e) => {
   const event = e as CustomEvent<{ position: ScrollPosition }>;
+  /** The position is available in event.detail.position */
   console.log(event.detail.position);
 });
 restoreScroll(el);
 ```
 
-You can prevent events from executing by calling `event.preventDefault`:
+`event.preventDefault` works as expected:
 
 ```ts
 restoreScroll(el, {

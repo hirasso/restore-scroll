@@ -4,7 +4,9 @@
 
 ### Minor Changes
 
-- 91e555c: ## Breaking Change
+- 91e555c:
+
+  **Breaking Change**
 
   Only allow `Element` or `Window` when calling `restoreScroll`. This simplifies the internals significantly.
 

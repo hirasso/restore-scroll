@@ -6,8 +6,6 @@ describe("resolveTarget", () => {
   beforeEach(() => {
     document.body.innerHTML = /*html*/ `
       <div class="foo"></div>
-      <div class="bar"></div>
-      <div class="baz"></div>
     `;
   });
 
@@ -15,22 +13,23 @@ describe("resolveTarget", () => {
     document.body.innerHTML = "";
   });
 
-  it("resolves a string to an array of elements", () => {
-    expect(resolveTarget("div")).toEqual([...document.querySelectorAll("div")]);
-  });
-
   it("resolves the window to the document root", () => {
-    expect(resolveTarget(window)).toEqual([document.documentElement]);
+    expect(resolveTarget(window)).toEqual(document.documentElement);
   });
 
-  it("Always returns an array", () => {
-    const el = document.querySelector(".bar");
-    expect(resolveTarget(el)).toEqual([el]);
+  it("Returns either an element or nothing", () => {
+    const existing = document.querySelector(".foo");
+    const missing = document.querySelector(".waldo");
+    expect(resolveTarget(existing)).toEqual(existing);
+    expect(resolveTarget(missing)).toEqual(null);
   });
 
-  it("resolves a NodeList to an Array", () => {
+  it("Returns nothing for lists", () => {
     const nodeList = document.querySelectorAll("div");
     const array = [...nodeList];
-    expect(resolveTarget(nodeList)).toEqual(array);
+    /** @ts-expect-error */
+    expect(resolveTarget(nodeList)).toEqual(null);
+    /** @ts-expect-error */
+    expect(resolveTarget(array)).toEqual(null);
   });
 });

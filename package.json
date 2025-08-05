@@ -53,7 +53,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.28.1",
     "@playwright/test": "^1.54.1",
-    "@swup/fade-theme": "^2.0.1",
+    "@swup/fade-theme": "^2.0.2",
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^4.15.9",
     "astro-feather": "^1.0.0",

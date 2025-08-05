@@ -1,35 +1,39 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Nav from '../components/Nav.astro';
+import { Code } from "astro/components";
 import DefaultPageContent from '../components/DefaultPageContent.astro';
+
+const code = `
+/**
+ * Restore all elements that have overflow
+ */
+function restore() {
+	document.querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto")
+		.forEach((el) => restoreScroll(el));
+}
+restore();
+
+/**
+ * We are using swup for this SPA example
+ * @see https://swup.js.org
+ *
+ * Re-initialize every time a new page is viewed
+ */
+new Swup({
+	hooks: {
+		"page:view": restore,
+	},
+});
+`;
 ---
 
-<Layout isFrontPage={true}>
-	<p slot="after-header">In a Single Page Application</p>
+<Layout>
+	<p slot="instructions">In a Single Page Application, you need to call <Code code="restoreScroll(el)" lang="js" inline /> anytime new elements are rendered:</p>
 
-	<Nav
-		links={[
-			{
-				href: '/spa-2/',
-				title: 'Page 2',
-				description: 'Go to another page',
-				direction: "right"
-			}
-		]}
-	/>
+	<Code code={code.trim()} lang="js" />
 
 	<DefaultPageContent />
 
-	<Nav
-		links={[
-			{
-        href: "/",
-        title: "Leave SPA demo",
-        description: "Go back to the start page",
-        direction: "left",
-      },
-		]}
-	/>
 </Layout>
 
 <script>

@@ -21,7 +21,7 @@ function initPage() {
 initPage();
 
 new Swup({
-  containers: ["#header", "#swup"],
+  containers: ["#header", "main"],
   plugins: [new Theme()],
   hooks: {
     "page:view": initPage,

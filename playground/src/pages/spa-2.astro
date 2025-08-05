@@ -1,34 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
 import DefaultPageContent from "../components/DefaultPageContent.astro";
 ---
 
-<Layout isFrontPage={true}>
-  <p slot="after-header">In a Single Page Application</p>
-
-  <Nav
-    links={[
-      {
-        href: "/spa-1/",
-        title: "Page 1",
-        description: "Go to the first page",
-      },
-    ]}
-  />
+<Layout>
+  <p slot="instructions">In a Single Page Application</p>
 
   <DefaultPageContent />
 
-  <Nav
-    links={[
-      {
-        href: "/",
-        title: "Leave SPA demo",
-        description: "Go back to the start page",
-        direction: "left",
-      },
-    ]}
-  />
 </Layout>
 
 <script>

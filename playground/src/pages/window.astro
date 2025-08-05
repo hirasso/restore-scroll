@@ -4,25 +4,13 @@ import Nav from "../components/Nav.astro";
 import Tiles from "../components/Tiles.astro";
 ---
 
-<Layout isFrontPage={true}>
-  <p slot="after-header">Store the window scroll position</p>
+<Layout fullBleed={true}>
+  <p slot="instructions">Store the window scroll position</p>
 
-  <Nav links={[]} />
-
-  <div class="-mx-4 mb-4 border-y-2">
+  <div class="-mx-4 mb-4 relative overflow-hidden text-black/50">
     <Tiles amount={100} direction="vertical" idPrefix="vertical" />
   </div>
 
-  <Nav
-    links={[
-      {
-        href: "/",
-        title: "Leave window demo",
-        description: "Go back to the start page",
-        direction: "left",
-      },
-    ]}
-  />
 </Layout>
 
 <p

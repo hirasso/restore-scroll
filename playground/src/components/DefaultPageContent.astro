@@ -2,14 +2,13 @@
 import Tiles from './Tiles.astro';
 import Table from './Table.astro';
 import DebugInfo from "./DebugInfo.astro";
-import Nav from './Nav.astro';
-import feather from 'feather-icons';
 ---
 
 <div class="space-y-5 mb-4">
-	<section data-testid="vertical" class="relative">
+
+	<!-- <section data-testid="vertical" class="relative overflow-hidden rounded-sm text-black/50">
 		<div
-			class="outline-2 rounded-sm overflow-y-auto h-50 w-full --vertical"
+			class="overflow-y-auto h-50 w-full --vertical"
 			data-testid="vertical-scroll-container"
 		>
 			<Tiles amount={100} direction="vertical" idPrefix="vertical" />
@@ -17,7 +16,7 @@ import feather from 'feather-icons';
 		<DebugInfo text="scroll me!" />
 	</section>
 
-	<section data-testid="horizontal" class="relative">
+	<section data-testid="horizontal" class="relative overflow-hidden rounded-sm text-black/50">
 		<div
 			class="outline-2 rounded-sm w-full overflow-x-auto --horizontal"
 			data-testid="horizontal-scroll-container"
@@ -25,16 +24,16 @@ import feather from 'feather-icons';
 			<Tiles amount={50} direction="horizontal" idPrefix="horizontal" />
 		</div>
 		<DebugInfo text="scroll me!"/>
-	</section>
+	</section>-->
 
-	<section data-testid="both-axis" class="relative">
+	<section data-testid="both-axis" class="relative overflow-hidden rounded-sm text-black/50">
 		<div
-			class="outline-2 rounded-sm w-full h-100 overflow-auto"
+			class="outline-2 rounded-lg w-full h-100 overflow-auto"
 			data-testid="both-axis-scroll-container"
 		>
 			<Table rows={20} columns={20} idPrefix="both-axis" />
 		</div>
-		<DebugInfo text=`scroll me!` />
+		<DebugInfo text=`scroll me in both directions` />
 	</section>
 
 </div>

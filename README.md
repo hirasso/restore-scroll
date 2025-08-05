@@ -1,4 +1,4 @@
-# @hirasso/restore-scroll
+# restore-scroll
 
 **Zero-dependency scroll restoration for scrollable elements and the window using `history.state` ♻️**
 
@@ -7,9 +7,9 @@
 [![weekly NPM downloads](https://img.shields.io/npm/dw/restore-scroll)](https://www.npmjs.com/package/restore-scroll)
 [![license](https://img.shields.io/github/license/hirasso/restore-scroll)](https://github.com/hirasso/restore-scroll/blob/main/LICENSE)
 
-<!--## Demo
+## Demo
 
-[restore-scroll.js.org](https://restore-scroll.js.org)-->
+[restore-scroll.netlify.app](https://restore-scroll.netlify.app)
 
 ## Installation
 

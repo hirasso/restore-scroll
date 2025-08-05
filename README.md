@@ -1,4 +1,4 @@
-[![@hirasso/restore-scroll](./.art/restore-scroll-cover-v4.png)](https://restore-scroll.netlify.app)
+[![@hirasso/restore-scroll](./.art/readme-cover.svg)](https://restore-scroll.netlify.app)
 
 <div align="center">
 
@@ -6,7 +6,10 @@
 [![unit test status](https://img.shields.io/github/actions/workflow/status/hirasso/restore-scroll/unit-tests.yml?branch=main&label=unit%20tests)](https://github.com/hirasso/restore-scroll/actions/workflows/unit-tests.yml)
 [![license](https://img.shields.io/github/license/hirasso/restore-scroll)](https://github.com/hirasso/restore-scroll/blob/main/LICENSE)
 
+Zero-dependency scroll restoration for scrollable elements and the window using `history.state` ♻️
+
 </div>
+
 
 ## Demo
 

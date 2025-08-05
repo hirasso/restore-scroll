@@ -71,3 +71,12 @@ p > code {
 pre.astro-code {
 	@apply rounded-lg p-4 my-8 text-sm;
 }
+
+/**
+ * Prose
+ */
+@utility prose {
+	a {
+		@apply underline underline-offset-3 text-emerald-300;
+	}
+}

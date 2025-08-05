@@ -1,0 +1,63 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../layouts/Layout.astro";
+import DefaultPageContent from "../components/DefaultPageContent.astro";
+import Table from "../components/Table.astro";
+import DebugInfo from "../components/DebugInfo.astro";
+import Tiles from "../components/Tiles.astro";
+---
+
+<Layout>
+  <p class="mb-4">Random Number: <span data-testid="random" id="random"></span></p>
+
+  <section
+    data-testid="vertical"
+    class="relative overflow-hidden rounded-sm text-black/50 mb-4"
+  >
+    <div
+      class="overflow-y-auto h-50 w-full --vertical"
+      data-testid="vertical-scroll-container"
+    >
+      <Tiles amount={100} direction="vertical" idPrefix="vertical" />
+    </div>
+    <DebugInfo text="scroll me" />
+  </section>
+
+  <section
+    data-testid="horizontal"
+    class="relative overflow-hidden rounded-sm text-black/50 mb-4"
+  >
+    <div
+      class="outline-2 rounded-sm w-full overflow-x-auto --horizontal"
+      data-testid="horizontal-scroll-container"
+    >
+      <Tiles amount={50} direction="horizontal" idPrefix="horizontal" />
+    </div>
+    <DebugInfo text="scroll me!" />
+  </section>
+
+  <section
+    data-testid="both-axis"
+    class="relative overflow-hidden rounded-sm text-black/50 mb-4"
+  >
+    <div
+      class="outline-2 rounded-lg w-full h-100 overflow-auto"
+      data-testid="both-axis-scroll-container"
+    >
+      <Table rows={20} columns={20} idPrefix="both-axis" />
+    </div>
+    <DebugInfo text=`scroll me` />
+  </section>
+</Layout>
+
+<script>
+  import { restoreScroll } from "../../../src/index.js";
+  import { $, $$ } from "../js/helpers.js";
+
+  window.history.scrollRestoration = "auto";
+
+  $$(".overflow-y-auto,.overflow-x-auto,.overflow-auto").forEach((el) =>
+    restoreScroll(el)
+  );
+  $("#random")!.innerHTML = String(Math.random());
+</script>

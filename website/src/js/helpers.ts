@@ -21,9 +21,9 @@ export function createToast() {
   let hideTimeout: ReturnType<typeof window.setTimeout> | undefined;
 
   const element = createElement(/*html*/ `
-      <div class="fixed px-4 py-2 bottom-8 left-1/2 -translate-x-1/2
-          z-100 rounded-lg bg-emerald-200 text-sm text-black pointer-events-none
-          border border-black/50 shadow-black/20 shadow-lg
+      <div class="fixed px-4 py-2 bottom-4 left-4 max-w-sm
+          z-100 rounded-lg bg-black/20 backdrop-blur-2xl text-sm
+          border border-black/20 shadow-black/20 shadow-lg
           transition-all duration-75 ease-out">
       </div>
     `);
@@ -40,7 +40,7 @@ export function createToast() {
     element.innerHTML = html;
     element.classList.remove("translate-y-3", "opacity-0");
     if (!persist) {
-      hideTimeout = setTimeout(hide, 2000);
+      hideTimeout = setTimeout(hide, 5000);
     }
   };
 

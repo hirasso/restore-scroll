@@ -1,0 +1,77 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Code } from "astro/components";
+import DefaultPageContent from "../components/DefaultPageContent.astro";
+import Nav from "../components/Nav.astro";
+import Tiles from "../components/Tiles.astro";
+import DebugInfo from "../components/DebugInfo.astro";
+
+const code = `
+/**
+ * Restore all elements that have overflow
+ */
+function restore() {
+	document.querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto")
+		.forEach((el) => restoreScroll(el));
+}
+restore();
+
+/**
+ * We are using swup for this SPA example
+ * @see https://swup.js.org
+ *
+ * Re-initialize every time a new page is viewed
+ */
+new Swup({
+	hooks: {
+		"page:view": restore,
+	},
+});
+`;
+---
+
+<Layout>
+  <p slot="instructions">
+    Is simple to integrate with single page applications. Call <Code
+      code="restoreScroll(el)"
+      lang="js"
+      inline
+    /> anytime new elements are rendered:
+  </p>
+
+  <div data-swup-morph="spa-nav">
+    <Nav
+      items={[
+        {
+          href: "/spa-1/",
+          label: "SPA Page 1",
+        },
+        {
+          href: "/spa-2/",
+          label: "SPA Page 2",
+        },
+      ]}
+    />
+  </div>
+
+  <div id="swup">
+    <section
+      data-testid="vertical"
+      class="relative overflow-hidden rounded-sm text-black/50"
+    >
+      <div
+        class="overflow-y-auto h-50 w-full --vertical"
+        data-testid="vertical-scroll-container"
+      >
+        <Tiles amount={100} direction="vertical" idPrefix="vertical" />
+      </div>
+      <DebugInfo text="scroll vertically" />
+    </section>
+
+    <Code code={code.trim()} lang="js" />
+  </div>
+</Layout>
+
+<script>
+  import "../js/spa.js";
+</script>

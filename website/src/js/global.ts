@@ -16,12 +16,9 @@ export function showDebugInfo(
   if (!info) return;
 
   info.style.display = "block";
-  info.innerHTML = `${type}d: {top: ${top}, left: ${left}}`;
 
-  if (type === "store") {
-    toast.show(`Stored the scroll position. Reload the page, it will be restored!`, {
-      persist: true,
-    });
-  }
+  info.innerHTML =
+    type === "restore"
+      ? `${type}d: {top: ${top}, left: ${left}}`
+      : `${type}d: {top: ${top}, left: ${left}} – go back and fourth or reload to restore`;
 }
-

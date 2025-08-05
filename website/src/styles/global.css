@@ -5,7 +5,7 @@
 	--saturation: 100%;
 	--lightness: 75%;
 	--swup-fade-theme-duration: 150ms;
-	font-size: clamp(16px, 2vw, 18px);
+	font-size: clamp(16px, 2vw, 20px);
 }
 @theme {
 	--color-swup-purple: #27276e;

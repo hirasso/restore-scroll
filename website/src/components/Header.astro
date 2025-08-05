@@ -1,6 +1,7 @@
 ---
 import Nav from "./Nav.astro";
 import { SITE_DESCRIPTION } from "../consts.ts";
+import { Code } from "astro:components";
 ---
 
 <header id="header" class="p-4">
@@ -10,7 +11,7 @@ import { SITE_DESCRIPTION } from "../consts.ts";
         restore-scroll
       </a>
     </h1>
-    <p class="max-w-xl mx-auto">{SITE_DESCRIPTION}</p>
+    <p class="max-w-xl mx-auto">{SITE_DESCRIPTION.replace(/history\.state(.*)/, '')} <Code inline code="history.state" /></p>
   </div>
 
   <a

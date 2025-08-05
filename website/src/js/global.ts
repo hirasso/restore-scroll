@@ -7,7 +7,9 @@ export function showDebugInfo(
   el: Element,
   event: CustomEvent<{ position: ScrollPosition }>
 ) {
-  const { top, left } = event.detail.position;
+  const { position } = event.detail;
+  const top = Math.round(position.top);
+  const left = Math.round(position.left);
   const type = event.type.replace(/^(.*?):/, "");
   const info =
     el.parentElement?.querySelector<HTMLElement>("[data-debug-info]") ||

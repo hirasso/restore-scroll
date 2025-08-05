@@ -1,12 +1,13 @@
 ---
 export type Props = {
+  small?: boolean;
   items: {
     href: string;
     label: string;
   }[];
 };
 
-const { items } = Astro.props;
+const { items, small = false } = Astro.props;
 const { pathname: currentPath } = Astro.url;
 ---
 
@@ -23,7 +24,9 @@ const { pathname: currentPath } = Astro.url;
               href={href}
               aria-current={isCurrent ? "page" : undefined}
               class={[
-                "px-4 py-2 text-sm font-medium border border-gray-300 -me-[1px]",
+                "font-medium border border-gray-300 -me-[1px]",
+                !small && "text-sm px-4.5 py-2",
+                small && "text-xs px-2.5 py-1.5",
                 "hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500",
                 index === 0 ? "rounded-l-lg" : "",
                 index === items.length - 1 ? "rounded-r-lg" : "",

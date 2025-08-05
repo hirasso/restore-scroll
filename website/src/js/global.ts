@@ -1,4 +1,7 @@
 import type { ScrollPosition } from "../../../src/defs.ts";
+import { createToast } from "./helpers.ts";
+
+const toast = createToast();
 
 export function showDebugInfo(
   el: Element,
@@ -13,5 +16,9 @@ export function showDebugInfo(
   if (!info) return;
 
   info.style.display = "block";
-  info.textContent = `${type}d: {top: ${top}, left: ${left}}`;
+
+  info.innerHTML =
+    type === "restore"
+      ? `${type}d: {top: ${top}, left: ${left}}`
+      : `${type}d: {top: ${top}, left: ${left}} – go back and fourth or reload to restore`;
 }

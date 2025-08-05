@@ -1,0 +1,42 @@
+---
+export type Props = {
+  items: {
+    href: string;
+    label: string;
+  }[];
+};
+
+const { items } = Astro.props;
+const { pathname: currentPath } = Astro.url;
+---
+
+{
+  items.length > 0 && (
+    <nav aria-label="Main navigation" class="mb-8">
+      <div class="flex justify-center rounded-md shadow-sm" role="group">
+        {items.map(({ label, href }, index) => {
+          const isCurrent =
+            currentPath === href.replace(/\/$/, "") || currentPath === href;
+
+          return (
+            <a
+              href={href}
+              aria-current={isCurrent ? "page" : undefined}
+              class={[
+                "px-4 py-2 text-sm font-medium border border-gray-300 -me-[1px]",
+                "hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500",
+                index === 0 ? "rounded-l-lg" : "",
+                index === items.length - 1 ? "rounded-r-lg" : "",
+                isCurrent
+                  ? "bg-emerald-300! text-black border-emerald-300!"
+                  : "bg-white text-gray-900",
+              ].join(" ")}
+            >
+              {label}
+            </a>
+          );
+        })}
+      </div>
+    </nav>
+  )
+}

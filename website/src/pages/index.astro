@@ -1,31 +1,26 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
 import DefaultPageContent from "../components/DefaultPageContent.astro";
-import { SITE_DESCRIPTION } from "../consts.ts";
+import { Code } from "astro:components";
+
+const code = `
+/**
+ * Restore all elements that have overflow
+ */
+document.querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto")
+		.forEach((el) => restoreScroll(el));
+`;
 ---
 
-<Layout isFrontPage={true}>
-  <p slot="after-header">{SITE_DESCRIPTION}</p>
+<Layout>
 
-  <Nav links={[]} />
+  <p slot="instructions">Restores the scroll position of overflowing elements:</p>
 
   <DefaultPageContent />
 
-  <Nav
-    links={[
-      {
-        href: "/spa-1/",
-        title: "SPA Demo",
-        description: "Inside a single page app",
-      },
-      {
-        href: "/window/",
-        title: "Window Demo",
-        description: "With scrollRestoration='manual'",
-      },
-    ]}
-  />
+  <Code code={code.trim()} lang="js" />
+
+
 </Layout>
 
 <script>

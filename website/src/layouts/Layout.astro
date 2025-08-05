@@ -4,8 +4,7 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
-  isFrontPage?: boolean;
-  hideHeader?: boolean;
+  fullBleed?: boolean;
   noindex?: boolean;
   intro?: string;
 }
@@ -15,14 +14,7 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import Header from "../components/Header.astro";
 
-const {
-  title,
-  description,
-  noindex,
-  isFrontPage = false,
-  hideHeader = true,
-  intro,
-} = Astro.props;
+const { title, description, noindex, fullBleed = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -32,22 +24,17 @@ const {
     description={description ?? SITE_DESCRIPTION}
     noindex={noindex}
   />
-  <body>
+  <body class="bg-black text-white font-mono leading-[1.6]">
     <Header />
 
-    <div id="swup" class="m-4">
-      <div class="my-4">
-        <slot name="after-header" />
+    <main class:list={["my-4 px-4", !fullBleed && "mx-auto max-w-6xl"]}>
+      <div class="my-8 text-center max-w-2xl mx-auto">
+        <slot name="instructions" />
       </div>
-
-      <header class="mb-10" class:list={[{ "sr-only": hideHeader }]}>
-        <h1 class="text-4xl font-bold mb-0.5">{SITE_TITLE}</h1>
-        <div class="font-bold"><slot name="after-header" /></div>
-      </header>
 
       <slot />
 
       <Footer />
-    </div>
+    </main>
   </body>
 </html>

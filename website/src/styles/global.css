@@ -2,7 +2,7 @@
 
 :root {
 	--saturation: 100%;
-	--lightness: 70%;
+	--lightness: 75%;
 	--swup-fade-theme-duration: 150ms;
 	font-size: clamp(16px, 2vw, 18px);
 }
@@ -54,4 +54,18 @@ h2 {
   display: grid;
   place-content: center;
   background: hsl(var(--hue), var(--saturation), var(--lightness));
+}
+
+/**
+ * Inline <code>
+ */
+p > code {
+	@apply bg-emerald-300 rounded-md px-2 py-1 text-sm text-black;
+}
+
+/**
+ * Code Blocks
+ */
+pre.astro-code {
+	@apply rounded-lg p-4 my-8 text-sm;
 }

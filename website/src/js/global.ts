@@ -21,6 +21,6 @@ export function showDebugInfo(
 
   info.innerHTML =
     type === "restore"
-      ? `${type}d: {top: ${top}, left: ${left}}`
-      : `${type}d: {top: ${top}, left: ${left}} – go back and fourth or reload to restore`;
+      ? `${type}d (top: ${top}px, left: ${left}px)`
+      : `${type}d (top: ${top}px, left: ${left}px) – go back and forth or reload to restore`;
 }

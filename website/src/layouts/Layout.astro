@@ -24,7 +24,7 @@ const { title, description, noindex, fullBleed = false } = Astro.props;
     description={description ?? SITE_DESCRIPTION}
     noindex={noindex}
   />
-  <body class="bg-black text-white font-mono leading-[1.6]">
+  <body class="bg-black text-white font-mono font-light leading-[1.6]">
     <Header />
 
     <main class:list={["my-4 px-4", !fullBleed && "mx-auto max-w-6xl"]}>

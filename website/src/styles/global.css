@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './fonts.css';
 
 :root {
 	--saturation: 100%;
@@ -8,6 +9,7 @@
 }
 @theme {
 	--color-swup-purple: #27276e;
+	--font-mono: "IBM", ui-monospace;
 }
 h2 {
 	@apply font-bold mb-1;

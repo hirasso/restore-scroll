@@ -1,16 +1,16 @@
 ---
-import { ArrowRightIcon, ArrowUpRightIcon } from "astro-feather";
 import Nav from "./Nav.astro";
 import { SITE_DESCRIPTION } from "../consts.ts";
-
 ---
 
 <header id="header" class="p-4">
-  <div class="max-w-xl mx-auto text-center mt-8 mb-4">
-    <a class="block text-emerald-300 text-xl md:text-3xl my-2" href="/">
-      @hirasso/restore-scroll
-    </a>
-    <p>{SITE_DESCRIPTION}</p>
+  <div class="text-center mt-16 mb-4">
+    <h1>
+      <a class="block text-emerald-300 text-3xl italic md:text-8xl my-2" href="/">
+        restore-scroll
+      </a>
+    </h1>
+    <p class="max-w-xl mx-auto">{SITE_DESCRIPTION}</p>
   </div>
 
   <a
@@ -31,21 +31,21 @@ import { SITE_DESCRIPTION } from "../consts.ts";
     </svg>
     <span class="sr-only">GitHub</span>
   </a>
-</header>
 
-<Nav
-  items={[
-    {
-      href: "/",
-      label: "Elements",
-    },
-    {
-      href: "/window/",
-      label: "Window",
-    },
-    {
-      href: "/spa-1/",
-      label: "SPA",
-    },
-  ]}
-/>
+  <Nav
+    items={[
+      {
+        href: "/",
+        label: "Elements",
+      },
+      {
+        href: "/window/",
+        label: "Window",
+      },
+      {
+        href: "/spa-1/",
+        label: "SPA",
+      },
+    ]}
+  />
+</header>

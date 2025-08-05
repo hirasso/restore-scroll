@@ -1,4 +1,4 @@
-[![@hirasso/restore-scroll](./.art/restore-scroll.svg)](https://restore-scroll.netlify.app)
+[![@hirasso/restore-scroll](./.art/restore-scroll-cover.svg)](https://restore-scroll.netlify.app)
 
 <div align="center">
 

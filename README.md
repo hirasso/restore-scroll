@@ -1,6 +1,4 @@
-# restore-scroll
-
-**Zero-dependency scroll restoration for scrollable elements and the window using `history.state` ♻️**
+[![@hirasso/restore-scroll](./.art/restore-scroll-cover.png)](https://restore-scroll.netlify.app)
 
 [![e2e test status](https://img.shields.io/github/actions/workflow/status/hirasso/restore-scroll/e2e-tests.yml?branch=main&label=e2e%20tests)](https://github.com/hirasso/restore-scroll/actions/workflows/e2e-tests.yml)
 [![unit test status](https://img.shields.io/github/actions/workflow/status/hirasso/restore-scroll/unit-tests.yml?branch=main&label=unit%20tests)](https://github.com/hirasso/restore-scroll/actions/workflows/unit-tests.yml)

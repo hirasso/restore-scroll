@@ -1,19 +1,20 @@
 ---
 export type Props = {
   small?: boolean;
+  ariaLabel: string;
   items: {
     href: string;
     label: string;
   }[];
 };
 
-const { items, small = false } = Astro.props;
+const { ariaLabel, items, small = false } = Astro.props;
 const { pathname: currentPath } = Astro.url;
 ---
 
 {
   items.length > 0 && (
-    <nav aria-label="Main navigation" class="mb-8">
+    <nav aria-label={ariaLabel} class="my-4">
       <div class="flex justify-center rounded-md shadow-sm" role="group">
         {items.map(({ label, href }, index) => {
           const isCurrent =

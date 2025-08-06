@@ -1,0 +1,12 @@
+---
+import { Code } from "astro:components";
+
+interface Props {
+  code: string;
+  lang?: "js" | "css";
+  inline?: boolean;
+}
+let { code, lang = "js", inline = false } = Astro.props;
+---
+
+<Code code={code.trim()} lang={lang} inline={inline && true} theme="catppuccin-frappe" />

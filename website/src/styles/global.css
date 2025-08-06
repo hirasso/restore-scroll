@@ -69,7 +69,7 @@ p > code {
  * Code Blocks
  */
 pre.astro-code {
-	@apply rounded-lg p-4 my-8 text-sm;
+	@apply rounded-lg p-4 my-4 text-sm;
 }
 
 /**
@@ -79,4 +79,12 @@ pre.astro-code {
 	a {
 		@apply underline underline-offset-3 text-emerald-300;
 	}
+}
+
+/**
+ * Custom text size
+ */
+@utility text-headline {
+	font-size: clamp(1rem, 10vw, 6rem);
+	line-height: 1;
 }

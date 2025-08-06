@@ -1,46 +1,46 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import DefaultPageContent from "../components/DefaultPageContent.astro";
-import { Code } from "astro:components";
 import Nav from "../components/Nav.astro";
 import Tiles from "../components/Tiles.astro";
 import DebugInfo from "../components/DebugInfo.astro";
+import CodeBlock from "../components/CodeBlock.astro";
+
 const code = `
 /**
- * Restore all elements that have overflow
+ * We are using swup to convert this site to a SPA
+ * @see https://swup.js.org
  */
+import Swup from "swup";
+import { restoreScroll } from "@hirasso/restore-scroll";
+
+window.history.scrollRestoration = "manual";
+
+/** Restore the window (":root") and all overflowing elements */
 function restore() {
-	document.querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto")
+	document.querySelectorAll(":root,.overflow-y-auto,.overflow-x-auto,.overflow-auto")
 		.forEach((el) => restoreScroll(el));
-}
+};
+
+/** Restore once on page load */
 restore();
 
-/**
- * We are using swup for this SPA example
- * @see https://swup.js.org
- *
- * Re-initialize every time a new page is viewed
- */
+/** Restore again on swup's "page:view" hook */
 new Swup({
 	hooks: {
-		"page:view": restore,
+      "page:view": restore,
 	},
 });
 `;
 ---
 
 <Layout>
-  <p slot="instructions">
-    Is simple to integrate with single page applications. Call <Code
-      code="restoreScroll(el)"
-      lang="js"
-      inline
-    /> anytime new elements are rendered:
-  </p>
 
-  <div data-swup-morph="spa-nav">
+  <CodeBlock code={code.trim()} />
+
+  <p class="text-center mt-8">Try it yourself:</p>
+  <div data-swup-morph="spa-nav" class="mb-8">
     <Nav
-      small
+      ariaLabel="Single Page App Navigation"
       items={[
         {
           href: "/spa-1/",
@@ -65,10 +65,9 @@ new Swup({
       >
         <Tiles amount={50} direction="horizontal" idPrefix="horizontal" />
       </div>
-      <DebugInfo text="scroll hoizontally" />
+      <DebugInfo text="scroll right" />
     </section>
 
-    <Code code={code.trim()} lang="js" />
   </div>
 </Layout>
 

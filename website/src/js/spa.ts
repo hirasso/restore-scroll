@@ -5,10 +5,10 @@ import { restoreScroll } from "../../../src/index.js";
 import { showDebugInfo } from "./global.js";
 import { $$ } from "./helpers.js";
 
-window.history.scrollRestoration = "auto";
+window.history.scrollRestoration = "manual";
 
-function initPage() {
-  $$(".overflow-y-auto,.overflow-x-auto,.overflow-auto").forEach((el) => {
+function restore() {
+  $$(":root,.overflow-y-auto,.overflow-x-auto,.overflow-auto").forEach((el) => {
     restoreScroll(el, {
       debug: true,
       events: {
@@ -18,17 +18,16 @@ function initPage() {
     });
   });
 }
-
-initPage();
+restore();
 
 new Swup({
-  containers: ["#swup"],
   plugins: [new Theme({ mainElement: "#swup" }), new SwupMorphPlugin()],
   hooks: {
-    "page:view": initPage,
+    "page:view": restore,
     "visit:start": (visit) => {
       visit.scroll.reset = false;
     },
   },
-  ignoreVisit: (url) => !url.startsWith("/spa-"),
+  ignoreVisit: (url, { el }) =>
+    !url.startsWith("/spa-") || !el?.closest("[data-swup-morph]"),
 });

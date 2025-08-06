@@ -1,11 +1,21 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
 import Tiles from "../components/Tiles.astro";
+import CodeBlock from "../components/CodeBlock.astro";
+import DebugInfo from "../components/DebugInfo.astro";
+const code = `
+import { restoreScroll } from "@hirasso/restore-scroll";
+
+/** restore the scroll position of the window */
+window.history.scrollRestoration = "manual";
+restoreScroll(window);
+`;
 ---
 
 <Layout fullBleed={true}>
-  <p slot="instructions">Works on the window, too!</p>
+  <!-- <p slot="instructions">Works on the window, too:</p>-->
+
+  <CodeBlock code={code} />
 
   <div class="-mx-4 mb-4 relative overflow-hidden text-black/50">
     <Tiles amount={100} direction="vertical" idPrefix="vertical" />
@@ -13,11 +23,7 @@ import Tiles from "../components/Tiles.astro";
 
 </Layout>
 
-<p
-  data-global-debug-info
-  class="fixed bottom-0 right-0 rounded-tl-md bg-black text-white px-2 py-1 hidden font-mono text-xs"
->
-</p>
+<DebugInfo text="scroll down" global />
 
 <script>
   import { restoreScroll } from "../../../src/index.js";

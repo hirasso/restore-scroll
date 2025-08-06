@@ -1,0 +1,64 @@
+---
+import Tiles from "./Tiles.astro";
+import Table from "./Table.astro";
+import DebugInfo from "./DebugInfo.astro";
+interface Props {
+  vertical?: boolean;
+  horizontal?: boolean;
+  table?: boolean;
+}
+const { vertical = false, horizontal = false, table = false } = Astro.props;
+---
+
+<div class="space-y-5 mb-4">
+  {
+    !!table && (
+      <section
+        data-testid="both-axis"
+        class="relative overflow-hidden rounded-sm text-black/50"
+      >
+        <div
+          class="outline-2 rounded-lg w-full h-100 overflow-auto"
+          data-testid="both-axis-scroll-container"
+        >
+          <Table rows={20} columns={20} idPrefix="both-axis" />
+        </div>
+        <DebugInfo text="scroll down and right" />
+      </section>
+    )
+  }
+
+  {
+    !!vertical && (
+      <section
+        data-testid="vertical"
+        class="relative overflow-hidden rounded-sm text-black/50"
+      >
+        <div
+          class="overflow-y-auto h-50 w-full --vertical"
+          data-testid="vertical-scroll-container"
+        >
+          <Tiles amount={100} direction="vertical" idPrefix="vertical" />
+        </div>
+        <DebugInfo text="scroll down" />
+      </section>
+    )
+  }
+
+  {
+    !!horizontal && (
+      <section
+        data-testid="horizontal"
+        class="relative overflow-hidden rounded-sm text-black/50"
+      >
+        <div
+          class="outline-2 rounded-sm w-full overflow-x-auto --horizontal"
+          data-testid="horizontal-scroll-container"
+        >
+          <Tiles amount={50} direction="horizontal" idPrefix="horizontal" />
+        </div>
+        <DebugInfo text="scroll right" />
+      </section>
+    )
+  }
+</div>

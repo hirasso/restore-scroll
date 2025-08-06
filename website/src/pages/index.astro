@@ -1,12 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import DefaultPageContent from "../components/DefaultPageContent.astro";
-import { Code } from "astro:components";
+import ScrollingElements from "../components/ScrollingElements.astro";
+import CodeBlock from "../components/CodeBlock.astro";
 
 const code = `
-/**
- * Restore all elements that have overflow
- */
+import { restoreScroll } from "@hirasso/restore-scroll";
+
+/** Restore the scroll position of all overflowing elements (tailwind classes in this case) */
 document.querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto")
 		.forEach((el) => restoreScroll(el));
 `;
@@ -14,12 +14,9 @@ document.querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto")
 
 <Layout>
 
-  <p slot="instructions">Restores the scroll position of overflowing elements:</p>
+  <CodeBlock code={code} />
 
-  <DefaultPageContent />
-
-  <Code code={code.trim()} lang="js" />
-
+  <ScrollingElements vertical horizontal table />
 
 </Layout>
 

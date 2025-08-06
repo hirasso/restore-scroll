@@ -1,14 +1,14 @@
 ---
-import type { GetStaticPaths } from "astro";
 import Layout from "../layouts/Layout.astro";
-import DefaultPageContent from "../components/DefaultPageContent.astro";
 import Table from "../components/Table.astro";
 import DebugInfo from "../components/DebugInfo.astro";
 import Tiles from "../components/Tiles.astro";
 ---
 
-<Layout>
-  <p class="mb-4">Random Number: <span data-testid="random" id="random"></span></p>
+<Layout noindex>
+  <p class="mb-4">
+    Random Number: <span data-testid="random" id="random"></span>
+  </p>
 
   <section
     data-testid="vertical"

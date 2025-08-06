@@ -4,10 +4,10 @@ import { SITE_DESCRIPTION } from "../consts.ts";
 import { Code } from "astro:components";
 ---
 
-<header id="header" class="p-4">
-  <div class="text-center mt-16 mb-4">
+<header id="header" class="px-4 my-[max(5rem,8%)]">
+  <div class="text-center">
     <h1>
-      <a class="block text-emerald-300 text-3xl italic md:text-8xl my-2" href="/">
+      <a class="block text-emerald-300 italic text-headline my-2" href="/">
         restore-scroll
       </a>
     </h1>
@@ -34,6 +34,7 @@ import { Code } from "astro:components";
   </a>
 
   <Nav
+    ariaLabel="Main Navigation"
     items={[
       {
         href: "/",

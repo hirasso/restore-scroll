@@ -1,4 +1,4 @@
-[![@hirasso/restore-scroll](./.art/restore-scroll-readme-cover.svg)](https://restore-scroll.netlify.app)
+[![@hirasso/restore-scroll](./.art/restore-scroll-readme-cover.svg)](https://restore-scroll.js.org)
 
 <div align="center">
 
@@ -13,7 +13,7 @@ Zero-dependency scroll restoration for scrollable elements and the window using 
 
 ## Demo
 
-[restore-scroll.netlify.app](https://restore-scroll.netlify.app)
+[restore-scroll.js.org](https://restore-scroll.js.org)
 
 ## Installation
 

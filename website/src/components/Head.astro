@@ -6,6 +6,7 @@ export interface Props {
 	noindex?: boolean;
 }
 
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, noindex = false, image = '/social.png' } = Astro.props;
 ---
 
@@ -15,6 +16,9 @@ const { title, description, noindex = false, image = '/social.png' } = Astro.pro
 <link rel="icon" type="image/png" href="/favicon.png" />
 
 {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>

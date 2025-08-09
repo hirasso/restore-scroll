@@ -17,6 +17,10 @@ describe("resolveTarget", () => {
     expect(resolveTarget(window)).toEqual(document.documentElement);
   });
 
+  it("resolves the <body> to the document root", () => {
+    expect(resolveTarget(document.body)).toEqual(document.documentElement);
+  });
+
   it("Returns either an element or nothing", () => {
     const existing = document.querySelector(".foo");
     const missing = document.querySelector(".waldo");

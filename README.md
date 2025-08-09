@@ -31,7 +31,7 @@ Or import the module directly from a CDN for quick tests:
 
 ```html
 <script type="module">
-  import { restoreScroll } from "https://unpkg.com/@hirasso/restore-scroll@0?module";
+  import { restoreScroll } from "https://unpkg.com/@hirasso/restore-scroll@0";
 </script>
 ```
 
@@ -127,4 +127,4 @@ restoreScroll(el, {
 
 ## Motivation
 
-There already are other solutions for storing and restoring the scroll position out there (e.g. [@epic-web/restore-scroll](https://github.com/epicweb-dev/restore-scroll)). But all I could find either had a dependency (React in most cases) or was using `sessionStorage` for storing the scroll positions, which is not ideal (in `sessionStorage`, one URL can only store one scroll state, ever). Hence, this new little package. Hope it prooves useful to some people out there!
+There already are other solutions for storing and restoring the scroll position. But all I could find was either archived by their owner, had a dependency (React in most cases) or was using `sessionStorage` for storing the scroll positions, which is not ideal (with `sessionStorage`, one URL can only store one scroll state, ever). Hence, this new little package.

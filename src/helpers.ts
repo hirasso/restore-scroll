@@ -149,7 +149,7 @@ export function createContainerSelector(
 /**
  * Check if an element is a root element (<html> or <body>)
  */
-export function isRootElement(element: Element): boolean {
+export function isRootElement(element: unknown): boolean {
   return (
     element instanceof HTMLHtmlElement || element instanceof HTMLBodyElement
   );
@@ -206,8 +206,9 @@ export function commitScrollState(state: ScrollState) {
  * Resolve a target
  */
 export function resolveTarget(target: Target | null): Element | null {
-  /** The window */
-  if (target === window) {
+  if (!target) return null;
+
+  if (target === window || isRootElement(target)) {
     return document.scrollingElement ?? document.documentElement;
   }
 

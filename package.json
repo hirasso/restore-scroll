@@ -43,7 +43,8 @@
     "test:unit:watch": "vitest --config ./tests/unit/vitest.config.ts",
     "test:e2e": "pnpm exec playwright test --config ./tests/e2e/config.playwright.ts",
     "test:e2e:dev": "PLAYWRIGHT_ENV=dev pnpm run test:e2e --ui",
-    "test:e2e:install": "pnpm exec playwright install --with-deps"
+    "test:e2e:install": "pnpm exec playwright install --with-deps",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@changesets/cli": "^2.28.1",

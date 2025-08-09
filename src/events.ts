@@ -11,7 +11,7 @@ export function dispatch<K extends keyof EventMap>(
   el: Element,
   type: K,
   detail: EventMap[K]["detail"],
-  settings: Settings
+  settings: Settings,
 ): boolean {
   const event = new CustomEvent(`${prefix}:${type}`, {
     detail,

@@ -23,7 +23,7 @@ let hookedIntoBeforeUnload = false;
  */
 export default function restoreScroll(
   target: Target | null,
-  options: Partial<Options> = {}
+  options: Partial<Options> = {},
 ) {
   const merged: Options = { ...defaults, ...options };
   const settings: Settings = {

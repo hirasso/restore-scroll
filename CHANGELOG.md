@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.4
+
+### Patch Changes
+
+- 6ddf805: Compile only to esm
+- 6ddf805: Switch from microbundle to tsdown for building the library
+
 ## 0.1.3
 
 ### Patch Changes

@@ -39,7 +39,7 @@ Or import the module directly from a CDN for quick tests:
 
 ```js
 /**
- * Store the scroll position all overflowing divs (identified by tailwind classes in this case):
+ * Restore the scroll positions of all overflowing divs (identified by tailwind classes in this case):
  */
 document
   .querySelectorAll(".overflow-y-auto,.overflow-x-auto,.overflow-auto")

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.6
+
+### Patch Changes
+
+- 3589fd2: Check types during unit tests
+- 3589fd2: Resolve `<body>` to the root scrolling element
+
 ## 0.1.5
 
 ### Patch Changes

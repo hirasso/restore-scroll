@@ -39,7 +39,7 @@ export const nextTick = (): Promise<void> => {
  */
 export function debounce<F extends (...args: unknown[]) => unknown>(
   callback: F,
-  wait = 0
+  wait = 0,
 ): (...args: Parameters<F>) => void {
   let timeout: ReturnType<typeof setTimeout>;
   return (...args: Parameters<F>) => {
@@ -73,7 +73,7 @@ export function isScrollState(value: unknown): value is ScrollState {
   return (
     isRecord(value) &&
     Object.entries(value as Record<string, unknown>).every(
-      ([key, value]) => typeof key === "string" && isScrollPosition(value)
+      ([key, value]) => typeof key === "string" && isScrollPosition(value),
     )
   );
 }
@@ -135,12 +135,12 @@ function createUniqueSelector(el: Element): string {
  */
 export function createContainerSelector(
   element: Element,
-  logger?: Logger
+  logger?: Logger,
 ): string {
   if (!isRootElement(element) && !element.id) {
     logger?.log(
       "💡 for best results, add an [id] to elements you want to restore",
-      { element }
+      { element },
     );
   }
   return element.matches("body *") ? createUniqueSelector(element) : ":root";
@@ -160,7 +160,7 @@ export function isRootElement(element: unknown): boolean {
  */
 export function readContainerSelector(
   element: ScrollContainer,
-  logger?: Logger
+  logger?: Logger,
 ): string | undefined {
   const { selector } = element.__restore_scroll || {};
 
@@ -198,7 +198,7 @@ export function commitScrollState(state: ScrollState) {
       ...(window.history.state ?? {}),
       restoreScroll: state,
     },
-    ""
+    "",
   );
 }
 

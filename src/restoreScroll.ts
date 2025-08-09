@@ -5,6 +5,7 @@ import {
   createLogger,
   createContainerSelector,
   resolveTarget,
+  isRootElement,
 } from "./helpers.js";
 import { restore } from "./restore.js";
 import { store, storeAll } from "./store.js";
@@ -15,10 +16,10 @@ const defaults: Options = {
 };
 
 /** Hook into beforeunload */
-let hookedIntoBeforeUnlad = false;
+let hookedIntoBeforeUnload = false;
 
 /**
- * Track the scroll position of an element
+ * Restore the scroll position of an element
  */
 export default function restoreScroll(
   target: Target | null,
@@ -37,37 +38,59 @@ export default function restoreScroll(
     return;
   }
 
-  initialize(element, settings);
-
   /** Store all on beforeunload */
-  if (!hookedIntoBeforeUnlad) {
-    hookedIntoBeforeUnlad = true;
+  if (!hookedIntoBeforeUnload) {
+    hookedIntoBeforeUnload = true;
     window.addEventListener("beforeunload", storeAll);
   }
+
+  register(element, settings);
+
+  /**
+   * Return a destroy function
+   */
+  return { destroy: () => unregister(element) };
 }
 
 /**
- * Initialize scroll restoration for an element
+ * Register an element for scroll restoration
  */
-async function initialize(element: ScrollContainer, settings: Settings) {
+function register(element: ScrollContainer, settings: Settings) {
   const { logger } = settings;
-
-  /** Prevent double initialization */
-  if (element.hasAttribute("data-restore-scroll")) {
-    return settings.logger?.warn("Already initialized:", element);
-  }
 
   /** Mark the element */
   element.setAttribute("data-restore-scroll", "");
 
-  /** Create and store the selector in the element */
-  const selector = createContainerSelector(element, logger);
-  element.__restore_scroll = { selector };
+  /** Create and store the state in the element */
+  element.__restore_scroll ??= {
+    selector: createContainerSelector(element, logger),
+    onScroll: debounce(() => store(element, settings), 150),
+  };
 
-  const scrollTarget = element.matches("body *") ? element : window;
-  const onScroll = debounce(() => store(element, settings), 150);
-
-  scrollTarget.addEventListener("scroll", onScroll, { passive: true });
-
+  /** Always restore when called */
   restore(element, settings);
+
+  const eventTarget = isRootElement(element) ? window : element;
+
+  /** Allow for repeated calls to `register` (interesting for e.g. the window) */
+  eventTarget.removeEventListener("scroll", element.__restore_scroll.onScroll);
+  eventTarget.addEventListener("scroll", element.__restore_scroll.onScroll, {
+    passive: true,
+  });
+}
+
+/**
+ * Unregister an element from scroll restoration
+ */
+function unregister(element: ScrollContainer) {
+  if (!element.__restore_scroll) return;
+
+  /** Unmark the element */
+  element.removeAttribute("data-restore-scroll");
+
+  const eventTarget = isRootElement(element) ? window : element;
+
+  eventTarget.removeEventListener("scroll", element.__restore_scroll.onScroll);
+
+  element.__restore_scroll = undefined;
 }

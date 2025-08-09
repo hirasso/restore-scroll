@@ -28,7 +28,8 @@ export type Logger = ReturnType<typeof createLogger>;
 
 export type ScrollContainer = Element & {
   __restore_scroll?: {
-    selector?: string;
+    selector: string;
+    onScroll: () => void;
   };
 };
 

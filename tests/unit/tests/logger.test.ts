@@ -13,7 +13,7 @@ describe("Logger", () => {
     document.body.append(
       createElement(/*html*/ `
       <div>
-        <div class="scroller" data-restore-scroll></div>
+        <div class="scroller"></div>
       </div>
     `)
     );
@@ -26,18 +26,17 @@ describe("Logger", () => {
   });
 
   it("should log if debug is true", () => {
-    restoreScroll(document.querySelector(".scroller"), { debug: true });
+    restoreScroll(document.querySelector(".missing"), { debug: true });
 
-    expect(warnSpy).toBeCalledWith(
+    expect(errorSpy).toBeCalledWith(
       expect.anything(),
       expect.anything(),
-      "Already initialized:",
-      expect.anything()
+      "No element found"
     );
   });
 
   it("should not log if debug is false", () => {
-    restoreScroll(document.querySelector(".scroller"), { debug: false });
-    expect(warnSpy).not.toBeCalled();
+    restoreScroll(document.querySelector(".missing"), { debug: false });
+    expect(errorSpy).not.toBeCalled();
   });
 });

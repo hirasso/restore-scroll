@@ -137,13 +137,20 @@ export function createContainerSelector(
   element: Element,
   logger?: Logger,
 ): string {
-  if (element.matches("body *") && !element.id) {
+  if (isRootElement(element) && !element.id) {
     logger?.log(
       "💡 for best results, add an [id] to elements you want to restore",
       { element },
     );
   }
   return element.matches("body *") ? createUniqueSelector(element) : ":root";
+}
+
+/**
+ * Check if an element is a root element (<html> or <body>)
+ */
+export function isRootElement(element: Element): boolean {
+  return element instanceof HTMLHtmlElement || element instanceof HTMLBodyElement;
 }
 
 /**

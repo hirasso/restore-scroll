@@ -6,7 +6,7 @@
 [![unit test status](https://img.shields.io/github/actions/workflow/status/hirasso/restore-scroll/unit-tests.yml?branch=main&label=unit%20tests)](https://github.com/hirasso/restore-scroll/actions/workflows/unit-tests.yml)
 [![license](https://img.shields.io/github/license/hirasso/restore-scroll)](https://github.com/hirasso/restore-scroll/blob/main/LICENSE)
 
-Zero-dependency scroll restoration for scrollable elements and the window using `history.state` ♻️
+Vanilla JavaScript scroll restoration for overflowing elements and the window using `history.state` ♻️
 
 </div>
 
@@ -67,8 +67,8 @@ The second argument `options` accepts this:
 type Options = {
   debug?: boolean;
   events?: {
-    "store"?: (el: Element, event: CustomEvent<position: ScrollPosition>) => void,
-    "restore"?: (el: Element, event: CustomEvent<position: ScrollPosition>) => void,
+    store?: (el: Element, event: CustomEvent<position: ScrollPosition>) => void,
+    restore?: (el: Element, event: CustomEvent<position: ScrollPosition>) => void,
   }
 }
 ```
@@ -124,3 +124,7 @@ restoreScroll(el, {
   },
 });
 ```
+
+## Motivation
+
+There already are other solutions for storing and restoring the scroll position out there (e.g. [@epic-web/restore-scroll](https://github.com/epicweb-dev/restore-scroll)). But all I could find either had a dependency (React in most cases) or was using `sessionStorage` for storing the scroll positions, which is not ideal (in `sessionStorage`, one URL can only store one scroll state, ever). Hence, this new little package. Hope it prooves useful to some people out there!

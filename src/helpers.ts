@@ -137,7 +137,7 @@ export function createContainerSelector(
   element: Element,
   logger?: Logger,
 ): string {
-  if (isRootElement(element) && !element.id) {
+  if (!isRootElement(element) && !element.id) {
     logger?.log(
       "💡 for best results, add an [id] to elements you want to restore",
       { element },

@@ -15,7 +15,7 @@ const defaults: Options = {
   debug: false,
 };
 
-/** Hook into beforeunload */
+/** Hooked into beforeunload? */
 let hookedIntoBeforeUnload = false;
 
 /**
@@ -44,12 +44,7 @@ export default function restoreScroll(
     window.addEventListener("beforeunload", storeAll);
   }
 
-  register(element, settings);
-
-  /**
-   * Return a destroy function
-   */
-  return { destroy: () => unregister(element) };
+  return register(element, settings);
 }
 
 /**
@@ -61,36 +56,20 @@ function register(element: ScrollContainer, settings: Settings) {
   /** Mark the element */
   element.setAttribute("data-restore-scroll", "");
 
+  /** First time? Then attach the scroll handler further down */
+  const isFirstTime = !element.__restore_scroll;
+
   /** Create and store the state in the element */
   element.__restore_scroll ??= {
     selector: createContainerSelector(element, logger),
-    onScroll: debounce(() => store(element, settings), 150),
   };
 
   /** Always restore when called */
   restore(element, settings);
 
-  const eventTarget = isRootElement(element) ? window : element;
-
-  /** Allow for repeated calls to `register` (interesting for e.g. the window) */
-  eventTarget.removeEventListener("scroll", element.__restore_scroll.onScroll);
-  eventTarget.addEventListener("scroll", element.__restore_scroll.onScroll, {
-    passive: true,
-  });
-}
-
-/**
- * Unregister an element from scroll restoration
- */
-function unregister(element: ScrollContainer) {
-  if (!element.__restore_scroll) return;
-
-  /** Unmark the element */
-  element.removeAttribute("data-restore-scroll");
-
-  const eventTarget = isRootElement(element) ? window : element;
-
-  eventTarget.removeEventListener("scroll", element.__restore_scroll.onScroll);
-
-  element.__restore_scroll = undefined;
+  if (isFirstTime) {
+    const eventTarget = isRootElement(element) ? window : element;
+    const onScroll = debounce(() => store(element, settings), 150);
+    eventTarget.addEventListener("scroll", onScroll, { passive: true });
+  }
 }

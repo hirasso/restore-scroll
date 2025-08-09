@@ -22,7 +22,7 @@ describe("events", () => {
   });
 
   afterEach(() => {
-    logSpy.mockRestore();
+    vi.restoreAllMocks();
     document.body.innerHTML = "";
   });
 
@@ -48,7 +48,6 @@ describe("events", () => {
       console.log(el, event.type, event.detail);
     });
 
-    const position = { top: 100, left: 0 };
     dispatch(el, "store", eventDetail, {});
     dispatch(el, "restore", eventDetail, {});
 
@@ -69,7 +68,6 @@ describe("events", () => {
       console.log(el, event.type, event.detail);
     });
 
-    const position = { top: 100, left: 0 };
     dispatch(el, "store", eventDetail, settingsWithEvents);
     dispatch(el, "restore", eventDetail, settingsWithEvents);
 

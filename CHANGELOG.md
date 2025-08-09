@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+### Patch Changes
+
+- 8ef0fa0: Bump version to update README on npmjs.org
+
 ## 0.1.1
 
 ### Patch Changes

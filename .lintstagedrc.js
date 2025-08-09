@@ -1,4 +1,4 @@
 export default {
-  "**/*.{js,ts,mjs}": ["prettier --write"],
+  "**/*.{js,ts,mjs}": ["pnpm run format"],
   "**/*.astro": ["astro check"],
 };

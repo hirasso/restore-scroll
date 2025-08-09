@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+### Patch Changes
+
+- a0f5f45: Allow repeated calls to `restoreScroll` against the same target element to make it easier to restore the `window` scroll position in single page apps.
+
 ## 0.1.2
 
 ### Patch Changes

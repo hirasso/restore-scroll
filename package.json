@@ -15,17 +15,15 @@
   },
   "license": "MIT",
   "type": "module",
-  "source": "./src/index.ts",
-  "main": "./dist/restore-scroll.cjs",
-  "module": "./dist/restore-scroll.module.js",
-  "unpkg": "./dist/restore-scroll.umd.js",
-  "types": "./dist/types/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/restore-scroll.modern.js",
-      "require": "./dist/restore-scroll.cjs"
-    }
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
     "src",
@@ -33,13 +31,10 @@
   ],
   "scripts": {
     "prepare": "husky",
-    "clean": "rm -rf ./dist",
     "format": "pnpm exec prettier 'src/**/*.{js,ts,mjs}' --write",
     "prepublishOnly": "pnpm run build",
-    "build": "pnpm run clean && pnpm run build:module && pnpm run build:bundle",
-    "build:module": "BROWSERSLIST_ENV=modern microbundle src/index.ts --format modern,esm,cjs",
-    "build:bundle": "BROWSERSLIST_ENV=production microbundle src/index.ts --format umd --external none --define process.env.NODE_ENV=production",
-    "watch": "BROWSERSLIST_ENV=development microbundle src/index.ts --watch --format modern",
+    "build": "tsdown",
+    "watch": "tsdown --watch",
     "website:dev": "astro dev --root website",
     "website:build": "astro build --root website",
     "website:serve": "astro build --root website && astro preview --root website",
@@ -60,11 +55,11 @@
     "feather-icons": "^4.29.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
-    "microbundle": "^0.15.1",
     "prettier": "^3.3.3",
     "swup": "^4.8.2",
     "swup-morph-plugin": "^1.3.0",
     "tailwindcss": "^4.1.11",
+    "tsdown": "^0.13.4",
     "typescript": "^5.6.2",
     "vitest": "^2.1.1"
   },

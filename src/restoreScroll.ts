@@ -1,4 +1,5 @@
 import type { Target, Options, ScrollContainer, Settings } from "./defs.js";
+import { SCROLL_DEBOUNCE_MS } from "./defs.js";
 
 import {
   debounce,
@@ -23,7 +24,7 @@ let hookedIntoBeforeUnload = false;
  */
 export default function restoreScroll(
   target: Target | null,
-  options: Partial<Options> = {},
+  options: Partial<Options> = {}
 ) {
   const merged: Options = { ...defaults, ...options };
   const settings: Settings = {
@@ -69,7 +70,10 @@ function register(element: ScrollContainer, settings: Settings) {
 
   if (isFirstTime) {
     const eventTarget = isRootElement(element) ? window : element;
-    const onScroll = debounce(() => store(element, settings), 150);
+    const onScroll = debounce(
+      () => store(element, settings),
+      SCROLL_DEBOUNCE_MS
+    );
     eventTarget.addEventListener("scroll", onScroll, { passive: true });
   }
 }

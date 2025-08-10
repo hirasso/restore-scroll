@@ -77,7 +77,7 @@ export function getScrollPosition(page: Page, testId?: string) {
 
 export async function expectScrollPosition(
   page: Page,
-  expected: ScrollPosition,
+  expected: ScrollPosition | undefined | null,
   testId?: string
 ) {
   const scrollY = await page.evaluate(
@@ -94,4 +94,21 @@ export async function expectScrollPosition(
   );
 
   expect(scrollY).toEqual(expected);
+}
+
+/**
+ * Wait for a DOM event on the window, e.g. "swup:visit:end"
+ */
+export async function waitForEvent(page: Page, event: string) {
+  await page.evaluate(
+    (event) =>
+      new Promise<void>((resolve) => {
+        window.addEventListener(event, () => resolve(), { once: true });
+      }),
+    event
+  );
+}
+
+export async function waitForSwup(page: Page) {
+	await page.waitForSelector('html.swup-enabled');
 }

@@ -24,7 +24,7 @@ let hookedIntoBeforeUnload = false;
  */
 export default function restoreScroll(
   target: Target | null,
-  options: Partial<Options> = {}
+  options: Partial<Options> = {},
 ) {
   const merged: Options = { ...defaults, ...options };
   const settings: Settings = {
@@ -72,7 +72,7 @@ function register(element: ScrollContainer, settings: Settings) {
     const eventTarget = isRootElement(element) ? window : element;
     const onScroll = debounce(
       () => store(element, settings),
-      SCROLL_DEBOUNCE_MS
+      SCROLL_DEBOUNCE_MS,
     );
     eventTarget.addEventListener("scroll", onScroll, { passive: true });
   }

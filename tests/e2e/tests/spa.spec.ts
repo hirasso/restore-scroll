@@ -7,6 +7,7 @@ import {
   scrollToEnd,
   getScrollPosition,
   waitForSwup,
+  actAndWaitForEvent,
 } from "./support";
 import { SCROLL_DEBOUNCE_MS } from "../../../src/defs.ts";
 
@@ -20,29 +21,30 @@ test.describe("Single Page Apps", () => {
   }) => {
     page.setViewportSize({ width: 1000, height: 1200 });
     const page1Position = await scrollTo(page, { top: 300 });
-    let visitEndPromise: Promise<void>;
 
     await wait(SCROLL_DEBOUNCE_MS * 2);
 
     await waitForSwup(page);
 
-    await page.locator('a[href="/spa-2/"]').click();
-    await waitForEvent(page, "swup:visit:end");
+    await actAndWaitForEvent(
+      page,
+      () => page.locator('a[href="/spa-2/"]').click(),
+      "swup:visit:end",
+    );
 
     const page2Position = await scrollToEnd(page);
     await wait(SCROLL_DEBOUNCE_MS * 2);
 
-    visitEndPromise = waitForEvent(page, "swup:visit:end");
-    await page.goBack();
-    await visitEndPromise;
+    await actAndWaitForEvent(page, () => page.goBack(), "swup:visit:end");
+
+    await wait(1);
 
     expect(await getScrollPosition(page)).toStrictEqual(page1Position);
 
-    visitEndPromise = waitForEvent(page, "swup:visit:end");
-    await page.goForward();
-    await visitEndPromise;
+    await actAndWaitForEvent(page, () => page.goForward(), "swup:visit:end");
+
+    await wait(1);
 
     expect(await getScrollPosition(page)).toStrictEqual(page2Position);
   });
-
 });

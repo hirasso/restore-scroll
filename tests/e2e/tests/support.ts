@@ -6,7 +6,7 @@ import type { ScrollPosition } from "../../../src/defs.js";
 export function scrollTo(
   page: Page,
   position: Partial<ScrollPosition>,
-  testId?: string
+  testId?: string,
 ) {
   return page.evaluate(
     ({ testId, position }) => {
@@ -24,7 +24,7 @@ export function scrollTo(
     {
       position,
       testId,
-    }
+    },
   );
 }
 
@@ -47,13 +47,13 @@ export function scrollToEnd(page: Page, testId?: string) {
 
       return { top: el.scrollTop, left: el.scrollLeft };
     },
-    { testId }
+    { testId },
   );
 }
 
 export function wait(timeout = 0): Promise<void> {
   return new Promise((resolve) =>
-    setTimeout(() => resolve(undefined), timeout)
+    setTimeout(() => resolve(undefined), timeout),
   );
 }
 
@@ -71,14 +71,14 @@ export function getScrollPosition(page: Page, testId?: string) {
           }
         : null;
     },
-    { testId }
+    { testId },
   );
 }
 
 export async function expectScrollPosition(
   page: Page,
   expected: ScrollPosition | undefined | null,
-  testId?: string
+  testId?: string,
 ) {
   const scrollY = await page.evaluate(
     (args): ScrollPosition => {
@@ -90,7 +90,7 @@ export async function expectScrollPosition(
         ? { top: el.scrollTop, left: el.scrollLeft }
         : { top: -1, left: -1 };
     },
-    { testId }
+    { testId },
   );
 
   expect(scrollY).toEqual(expected);
@@ -105,10 +105,20 @@ export async function waitForEvent(page: Page, event: string) {
       new Promise<void>((resolve) => {
         window.addEventListener(event, () => resolve(), { once: true });
       }),
-    event
+    event,
   );
 }
 
+export async function actAndWaitForEvent(
+  page: Page,
+  action: () => any,
+  event: string,
+) {
+  const visitEndPromise = waitForEvent(page, event);
+  await action();
+  await visitEndPromise;
+}
+
 export async function waitForSwup(page: Page) {
-	await page.waitForSelector('html.swup-enabled');
+  await page.waitForSelector("html.swup-enabled");
 }

@@ -18,11 +18,13 @@ describe("createContainerSelector", () => {
             <div></div>
             <div class="scroller"></div>
           </main>
-        `)
+        `),
     );
-    expect(createContainerSelector(document.querySelector(".scroller")!)).toEqual(
-      "html > body:nth-child(2) > main > div.scroller:nth-child(3)"
-    );
+    // The finder library generates optimized selectors
+    // In this case, .scroller is unique enough
+    expect(
+      createContainerSelector(document.querySelector(".scroller")!),
+    ).toEqual(".scroller");
   });
 
   it("should use ':root' if not inside the body", () => {
@@ -38,12 +40,12 @@ describe("createContainerSelector", () => {
             <div></div>
             <div id="scroller"></div>
           </main>
-        `)
+        `),
     );
 
-    expect(createContainerSelector(document.querySelector("#scroller")!)).toEqual(
-      "#scroller"
-    );
+    expect(
+      createContainerSelector(document.querySelector("#scroller")!),
+    ).toEqual("#scroller");
   });
 
   it("should inject the storage selector into the element", () => {
@@ -54,12 +56,13 @@ describe("createContainerSelector", () => {
             <div></div>
             <div class="scroller"></div>
           </main>
-        `)
+        `),
     );
     restoreScroll(document.querySelector(".scroller"));
+    // The finder library generates optimized selectors
     expect(
       document.querySelector<ScrollContainer>(".scroller")?.__restore_scroll
-        ?.selector
-    ).toEqual("html > body:nth-child(2) > main > div.scroller:nth-child(3)");
+        ?.selector,
+    ).toEqual(".scroller");
   });
 });

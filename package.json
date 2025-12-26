@@ -69,5 +69,8 @@
       "name": "pnpm",
       "onFail": "warn"
     }
+  },
+  "dependencies": {
+    "@medv/finder": "^4.0.2"
   }
 }

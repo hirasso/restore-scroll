@@ -5,6 +5,7 @@ import type {
   ScrollState,
   Target,
 } from "./defs.js";
+import { finder } from "@medv/finder";
 
 /** The logger and event prefix for the debug mode */
 export const prefix = "restore-scroll";
@@ -80,54 +81,15 @@ export function isScrollState(value: unknown): value is ScrollState {
 
 /**
  * Create a unique CSS selector for a given DOM element.
- * The selector is built from tag names, IDs, classes, and :nth-child where necessary.
+ * Uses @medv/finder library for robust selector generation.
  */
 function createUniqueSelector(el: Element): string {
   if (el.id) return `#${el.id}`;
 
-  const path: string[] = [];
-
-  // Traverse up the DOM tree from the element to the root <html> element
-  while (el && el.nodeType === Node.ELEMENT_NODE) {
-    // Start with the lowercase tag name (e.g., "div", "span")
-    let selector = el.nodeName.toLowerCase();
-
-    // If the element has an ID, use it as it's guaranteed to be unique in the document
-    if (el.id) {
-      selector += `#${el.id}`;
-      path.unshift(selector); // Add to the beginning of the path
-      break; // No need to go further up the tree
-    }
-
-    // If the element has class names, add them (dot-separated like in CSS)
-    if (el.className && typeof el.className === "string") {
-      // Clean up and convert class names to a valid CSS class selector
-      const classes = el.className.trim().split(/\s+/).join(".");
-      if (classes) {
-        selector += `.${classes}`;
-      }
-    }
-
-    // Use :nth-child() if the element is one of multiple siblings
-    const parent = el.parentNode as Element;
-    if (parent) {
-      const siblings = Array.from(parent.children);
-      if (siblings.length > 1) {
-        // Get the element's index among its siblings (1-based index for CSS)
-        const index = siblings.indexOf(el) + 1;
-        selector += `:nth-child(${index})`;
-      }
-    }
-
-    // Add the constructed selector for this level to the front of the path
-    path.unshift(selector);
-
-    // Move up to the parent element
-    el = el.parentElement!;
-  }
-
-  // Combine all parts of the path with `>` to form a full unique selector
-  return path.join(" > ");
+  // Use finder library to generate an optimal unique selector
+  return finder(el, {
+    root: document.body,
+  });
 }
 
 /**

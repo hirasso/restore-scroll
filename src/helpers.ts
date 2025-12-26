@@ -84,8 +84,6 @@ export function isScrollState(value: unknown): value is ScrollState {
  * Uses @medv/finder library for robust selector generation.
  */
 function createUniqueSelector(el: Element): string {
-  if (el.id) return `#${el.id}`;
-
   // Use finder library to generate an optimal unique selector
   return finder(el, {
     root: document.body,

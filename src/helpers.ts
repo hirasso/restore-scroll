@@ -82,12 +82,19 @@ export function isScrollState(value: unknown): value is ScrollState {
 /**
  * Create a unique CSS selector for a given DOM element.
  * Uses @medv/finder library for robust selector generation.
+ *
+ * @see https://github.com/antonmedv/finder
  */
-function createUniqueSelector(el: Element): string {
+function createUniqueSelector(el: Element, logger?: Logger): string {
   // Use finder library to generate an optimal unique selector
-  return finder(el, {
-    root: document.body,
-  });
+  try {
+    return finder(el, {
+      root: document.body,
+    });
+  } catch (error) {
+    logger?.error("Couldn't create a unique selector:", error, el);
+  }
+  return "";
 }
 
 /**
@@ -103,7 +110,9 @@ export function createContainerSelector(
       { element },
     );
   }
-  return element.matches("body *") ? createUniqueSelector(element) : ":root";
+  return element.matches("body *")
+    ? createUniqueSelector(element, logger)
+    : ":root";
 }
 
 /**

@@ -1,3 +1,3 @@
 export default {
-  "**/*.{ts}": ["pnpm run format", "pnpm run analyse"],
+  "**/*.{ts}": ["prettier --write", "pnpm run analyse"],
 };

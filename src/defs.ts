@@ -5,6 +5,8 @@ export type Options = {
   events?: Handlers;
 };
 
+export const SCROLL_DEBOUNCE_MS = 150;
+
 type Prettify<T> = {
   [K in keyof T]: T[K];
 } & {};

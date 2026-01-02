@@ -1,11 +1,15 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { createContainerSelector } from "../../../src/helpers.ts";
+import {
+  getContainerSelector,
+  createLogger,
+  createUniqueSelector,
+} from "../../../src/helpers.ts";
 import { createElement } from "../support.ts";
 import restoreScroll from "../../../src/restoreScroll.ts";
 import { ScrollContainer } from "../../../src/defs.ts";
 
-describe("createContainerSelector", () => {
+describe("getContainerSelector", () => {
   afterEach(() => {
     document.body.innerHTML = "";
   });
@@ -18,16 +22,18 @@ describe("createContainerSelector", () => {
             <div></div>
             <div class="scroller"></div>
           </main>
-        `)
+        `),
     );
-    expect(createContainerSelector(document.querySelector(".scroller")!)).toEqual(
-      "html > body:nth-child(2) > main > div.scroller:nth-child(3)"
+    // The finder library generates optimized selectors
+    // In this case, .scroller is unique enough
+    expect(getContainerSelector(document.querySelector(".scroller")!)).toEqual(
+      ".scroller",
     );
   });
 
   it("should use ':root' if not inside the body", () => {
-    expect(createContainerSelector(document.documentElement)).toEqual(":root");
-    expect(createContainerSelector(document.body)).toEqual(":root");
+    expect(getContainerSelector(document.documentElement)).toEqual(":root");
+    expect(getContainerSelector(document.body)).toEqual(":root");
   });
 
   it("should use the [id] attribute if available", () => {
@@ -38,11 +44,11 @@ describe("createContainerSelector", () => {
             <div></div>
             <div id="scroller"></div>
           </main>
-        `)
+        `),
     );
 
-    expect(createContainerSelector(document.querySelector("#scroller")!)).toEqual(
-      "#scroller"
+    expect(getContainerSelector(document.querySelector("#scroller")!)).toEqual(
+      "#scroller",
     );
   });
 
@@ -54,12 +60,26 @@ describe("createContainerSelector", () => {
             <div></div>
             <div class="scroller"></div>
           </main>
-        `)
+        `),
     );
     restoreScroll(document.querySelector(".scroller"));
+    // The finder library generates optimized selectors
     expect(
       document.querySelector<ScrollContainer>(".scroller")?.__restore_scroll
-        ?.selector
-    ).toEqual("html > body:nth-child(2) > main > div.scroller:nth-child(3)");
+        ?.selector,
+    ).toEqual(".scroller");
+  });
+
+  it("should mask errors from `@medv/finder`", () => {
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const logger = createLogger();
+    // @ts-expect-error
+    expect(() => createUniqueSelector(null, logger)).not.toThrow();
+    expect(
+      spy.mock.calls.some(
+        (args) => args[2] === "couldn't create a unique selector:",
+      ),
+    ).toBe(true);
+    vi.restoreAllMocks();
   });
 });

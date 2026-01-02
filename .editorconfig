@@ -6,15 +6,10 @@
 
 root = true
 
-[*.{js,php}]
+[*.{js,ts,css}]
 charset = utf-8
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 indent_style = space
-
-[*.{js,scss,css}]
 indent_size = 2
-
-[*.php]
-indent_size = 4

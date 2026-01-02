@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
-import { fileURLToPath } from "url";
-import path from "path";
+import { fileURLToPath } from "node:url";
+import * as path from "node:path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,8 +73,8 @@ export default defineConfig({
     url: baseURL,
     command:
       process.env.PLAYWRIGHT_ENV === "dev"
-        ? "npm run website:dev"
-        : "npm run website:serve",
+        ? "pnpm run website:dev"
+        : "pnpm run website:serve",
     reuseExistingServer: !process.env.CI,
   },
 });

@@ -56,6 +56,7 @@
     "astro-feather": "^1.0.0",
     "css.escape": "^1.5.1",
     "feather-icons": "^4.29.2",
+    "happy-dom": "^20.0.11",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "prettier": "^3.7.4",

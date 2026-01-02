@@ -55,7 +55,7 @@ function register(element: ScrollContainer, settings: Settings): boolean {
   const { logger } = settings;
 
   /** Mark the element */
-  element.setAttribute("data-restore-scroll", "");
+  element.toggleAttribute("data-restore-scroll", true);
 
   /** First time? Then attach the scroll handler further down */
   const isFirstTime = !element.__restore_scroll;

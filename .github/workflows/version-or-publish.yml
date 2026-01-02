@@ -19,6 +19,13 @@ jobs:
     name: Create Version PR or Publish
     if: github.repository_owner == 'hirasso'
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+
+    env:
+      HUSKY: 0
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4

@@ -1,6 +1,10 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { createContainerSelector } from "../../../src/helpers.ts";
+import {
+  createContainerSelector,
+  createLogger,
+  createUniqueSelector,
+} from "../../../src/helpers.ts";
 import { createElement } from "../support.ts";
 import restoreScroll from "../../../src/restoreScroll.ts";
 import { ScrollContainer } from "../../../src/defs.ts";
@@ -64,5 +68,18 @@ describe("createContainerSelector", () => {
       document.querySelector<ScrollContainer>(".scroller")?.__restore_scroll
         ?.selector,
     ).toEqual(".scroller");
+  });
+
+  it("should mask errors from `@medv/finder`", () => {
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const logger = createLogger();
+    // @ts-expect-error
+    expect(() => createUniqueSelector(null, logger)).not.toThrow();
+    expect(
+      spy.mock.calls.some(
+        (args) => args[2] === "couldn't create a unique selector:",
+      ),
+    ).toBe(true);
+    vi.restoreAllMocks();
   });
 });

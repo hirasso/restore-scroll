@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.0
+
+### Major Changes
+
+- 08c0f64: Switch to [`@medv/finder`](https://github.com/antonmedv/finder) for the automatic selector generation
+
+### Patch Changes
+
+- 08c0f64: Return a boolean from `restoreScroll()` indicating success / failure
+- 08c0f64: Update dev dependencies and tooling
+- 08c0f64: Updated dependencies
+
 ## 0.1.6
 
 ### Patch Changes

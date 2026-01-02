@@ -4,7 +4,7 @@ import { SCROLL_DEBOUNCE_MS } from "./defs.js";
 import {
   debounce,
   createLogger,
-  createContainerSelector,
+  getContainerSelector,
   resolveTarget,
   isRootElement,
 } from "./helpers.js";
@@ -25,7 +25,7 @@ let hookedIntoBeforeUnload = false;
 export default function restoreScroll(
   target: Target | null,
   options: Partial<Options> = {},
-) {
+): boolean {
   const merged: Options = { ...defaults, ...options };
   const settings: Settings = {
     ...merged,
@@ -36,7 +36,7 @@ export default function restoreScroll(
 
   if (!element) {
     settings.logger?.error("No element found");
-    return;
+    return false;
   }
 
   /** Store all on beforeunload */
@@ -51,7 +51,7 @@ export default function restoreScroll(
 /**
  * Register an element for scroll restoration
  */
-function register(element: ScrollContainer, settings: Settings) {
+function register(element: ScrollContainer, settings: Settings): boolean {
   const { logger } = settings;
 
   /** Mark the element */
@@ -61,9 +61,10 @@ function register(element: ScrollContainer, settings: Settings) {
   const isFirstTime = !element.__restore_scroll;
 
   /** Create and store the state in the element */
-  element.__restore_scroll ??= {
-    selector: createContainerSelector(element, logger),
-  };
+  const selector = getContainerSelector(element, logger);
+  if (!selector) return false;
+
+  element.__restore_scroll ??= { selector };
 
   /** Always restore when called */
   restore(element, settings);
@@ -76,4 +77,6 @@ function register(element: ScrollContainer, settings: Settings) {
     );
     eventTarget.addEventListener("scroll", onScroll, { passive: true });
   }
+
+  return true;
 }

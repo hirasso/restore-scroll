@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
-  createContainerSelector,
+  getContainerSelector,
   createLogger,
   createUniqueSelector,
 } from "../../../src/helpers.ts";
@@ -9,7 +9,7 @@ import { createElement } from "../support.ts";
 import restoreScroll from "../../../src/restoreScroll.ts";
 import { ScrollContainer } from "../../../src/defs.ts";
 
-describe("createContainerSelector", () => {
+describe("getContainerSelector", () => {
   afterEach(() => {
     document.body.innerHTML = "";
   });
@@ -26,14 +26,14 @@ describe("createContainerSelector", () => {
     );
     // The finder library generates optimized selectors
     // In this case, .scroller is unique enough
-    expect(
-      createContainerSelector(document.querySelector(".scroller")!),
-    ).toEqual(".scroller");
+    expect(getContainerSelector(document.querySelector(".scroller")!)).toEqual(
+      ".scroller",
+    );
   });
 
   it("should use ':root' if not inside the body", () => {
-    expect(createContainerSelector(document.documentElement)).toEqual(":root");
-    expect(createContainerSelector(document.body)).toEqual(":root");
+    expect(getContainerSelector(document.documentElement)).toEqual(":root");
+    expect(getContainerSelector(document.body)).toEqual(":root");
   });
 
   it("should use the [id] attribute if available", () => {
@@ -47,9 +47,9 @@ describe("createContainerSelector", () => {
         `),
     );
 
-    expect(
-      createContainerSelector(document.querySelector("#scroller")!),
-    ).toEqual("#scroller");
+    expect(getContainerSelector(document.querySelector("#scroller")!)).toEqual(
+      "#scroller",
+    );
   });
 
   it("should inject the storage selector into the element", () => {

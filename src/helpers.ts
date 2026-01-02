@@ -85,24 +85,27 @@ export function isScrollState(value: unknown): value is ScrollState {
  *
  * @see https://github.com/antonmedv/finder
  */
-export function createUniqueSelector(el: Element, logger?: Logger): string {
+export function createUniqueSelector(
+  el: Element,
+  logger?: Logger,
+): string | null {
   try {
     return finder(el, {
       root: document.body,
     });
   } catch (error) {
     logger?.error("couldn't create a unique selector:", { error, el });
-    return "";
   }
+  return null;
 }
 
 /**
  * Get the container selector for an element
  */
-export function createContainerSelector(
+export function getContainerSelector(
   element: Element,
   logger?: Logger,
-): string {
+): string | null {
   if (!isRootElement(element) && !element.id) {
     logger?.log(
       "💡 for best results, add an [id] to elements you want to restore",
